@@ -1,14 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect } from 'react';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Dimensions, Image, TouchableWithoutFeedback } from 'react-native';
 
-const window = Dimensions.get("window")
+const window = Dimensions.get('window')
 
 export default function App() {
+  const [iconRotate, setIconRotate] = useState('0deg')
 
   useEffect(() => {
     console.log('hello')
   });
+
+  const rotateIcon = () => {
+    if (iconRotate === '0deg') {
+      setIconRotate('180deg')
+    } else {
+      setIconRotate('0deg')
+    }
+  }
 
   const RecipeTitle = () => {
     return (
@@ -22,7 +31,18 @@ export default function App() {
     <View style={mainContainer.container}>
       <View style={sideNav.container}>
         <View style={openIcon.container}>
-          <View style={openIcon.icon}></View>
+          <TouchableWithoutFeedback style={openIcon.button} onPress={rotateIcon}>
+            <View style={openIcon.icon}>
+              <Image
+                source={require('./assets/chevron.png')}
+                style={[openIcon.chevron, {
+                  transform: [
+                    {rotate: iconRotate}
+                  ]
+                }]}
+              />
+            </View>
+          </TouchableWithoutFeedback>
         </View>
       </View>
       <RecipeTitle />
@@ -54,18 +74,23 @@ const openIcon = StyleSheet.create({
   container: {
     position: 'absolute',
     top: '50%',
-    // left: '100%',
     width: window.width / 5,
     alignItems: 'center'
   },
   icon: {
     width: 35,
     height: 35,
-    borderRadius: 35,
-    borderWidth: 2,
-    borderColor: '#282828',
-    backgroundColor: '#ffffff',
-    zIndex: 2
+    backgroundColor: 'transparent',
+    zIndex: 2,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  chevron: {
+    width: 35,
+    height: 35
+  },
+  button: {
+    backgroundColor: 'transparent'
   }
 })
 
