@@ -1,9 +1,9 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 
-export default function RecipeTitle({ title }) {
+export default function RecipeTitle({ title, window }) {
   return (
-    <View style={titleStyles.container}>
+    <View style={[titleStyles.container, {height: window.height / 6}]}>
         <Text style={titleStyles.title}>{title}</Text>
     </View>
   )
@@ -11,10 +11,10 @@ export default function RecipeTitle({ title }) {
 
 const titleStyles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#ffffff',
     alignItems: 'center',
-    top: 70
+    justifyContent: 'flex-end',
+    paddingBottom: 20
   },
   title: {
     color: '#282828',

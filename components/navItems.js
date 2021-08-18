@@ -1,16 +1,11 @@
 import React from 'react';
-import { 
-  StyleSheet, 
-  View, 
-  Text,
-  FlatList,
-  TouchableHighlight } from 'react-native';
+import { StyleSheet, View, Text, FlatList, TouchableHighlight } from 'react-native';
 
 const Item = ({ title, selectRecipe }) => (
   <TouchableHighlight
     style={navItems.touch}
     onPress={() => selectRecipe(title)}
-    underlayColor={'#F5F5F5'}
+    underlayColor={'#EBEBEB'}
   >
     <View style={navItems.itemsWrapper}>
       <Text style={navItems.item} numberOfLines={1}>{title}</Text>
