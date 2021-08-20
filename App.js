@@ -10,7 +10,7 @@ const window = Dimensions.get('window')
 export default function App() {
   const [recipes, setRecipes] = useState([
     {
-      'id': 1,
+      'id': 0,
       'title': 'Tikka Masala',
       'body': [
         {
@@ -36,7 +36,7 @@ export default function App() {
       ]
     },
     {
-      'id': 2,
+      'id': 1,
       'title': 'Brussel Tacos',
       'body': [
         {
@@ -58,7 +58,7 @@ export default function App() {
       ]
     },
     {
-      'id': 3,
+      'id': 2,
       'title': 'Kale Caesar',
       'body': [
         {
@@ -76,7 +76,7 @@ export default function App() {
       ]
     },
     {
-      'id': 4,
+      'id': 3,
       'title': 'Gorgonzola Red Sauce Pasta',
       'body': [
         {
@@ -131,12 +131,36 @@ export default function App() {
     })
   }
 
-  const handleItemChange = (key, text) => {
+  const handleItemChange = (index, text) => {
     let items = [...recipeBody]
-    let item = {...items[key]}
+    let item = {...items[index]}
     item.item = text
-    items[key] = item
+    items[index] = item
     setRecipeBody(items)
+
+    let allRecipes = [...recipes]
+    const recipeIndex = allRecipes.findIndex(obj => obj.title === recipeTitle)
+    let recipe = {...allRecipes[recipeIndex]}
+    recipe.body = items
+    allRecipes[recipeIndex] = recipe
+    setRecipes(allRecipes)
+  }
+
+  const handleAddNewLine = (index, text) => {
+    let items = [...recipeBody]
+    let newItem = {
+      id: index,
+      item: text
+    }
+    items.push(newItem)
+    setRecipeBody(items)
+    
+    let allRecipes = [...recipes]
+    const recipeIndex = allRecipes.findIndex(obj => obj.title === recipeTitle)
+    let recipe = {...allRecipes[recipeIndex]}
+    recipe.body = items
+    allRecipes[recipeIndex] = recipe
+    setRecipes(allRecipes)
   }
 
   return (
@@ -168,6 +192,8 @@ export default function App() {
                       key={item.id + 1}
                       id={item.id}
                       handleItemChange={handleItemChange}
+                      newItemIndex={recipeBody.length}
+                      handleAddNewLine={handleAddNewLine}
                     />
                   )}
                 </View>
