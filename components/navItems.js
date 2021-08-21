@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View, Text, FlatList, TouchableHighlight } from 'react-native';
 
-const Item = ({ title, selectRecipe }) => (
+const Item = ({ title, recipeTitle, selectRecipe }) => (
   <TouchableHighlight
-    style={navItems.touch}
+    style={[navItems.touch, title === recipeTitle ? navItems.selectedItem : {}]}
     onPress={() => selectRecipe(title)}
     underlayColor={'#EBEBEB'}
   >
@@ -13,7 +13,7 @@ const Item = ({ title, selectRecipe }) => (
   </TouchableHighlight>
 )
 
-export default function SideNav({ navOpen, recipes, selectRecipe }) {
+export default function SideNav({ navOpen, recipes, recipeTitle, selectRecipe }) {
 
   return(
     <>
@@ -21,7 +21,7 @@ export default function SideNav({ navOpen, recipes, selectRecipe }) {
       <View style={navItems.container}>
         <FlatList 
           data={recipes}
-          renderItem={({ item }) => <Item title={item.title} selectRecipe={selectRecipe} />}
+          renderItem={({ item }) => <Item title={item.title} recipeTitle={recipeTitle} selectRecipe={selectRecipe} />}
           keyExtractor={item => item.id.toString()}
           style={navItems.list}
         />
@@ -62,5 +62,8 @@ const navItems = StyleSheet.create({
     height: 'auto',
     fontSize: 18,
     fontWeight: '600'
+  },
+  selectedItem: {
+    backgroundColor: '#EBEBEB'
   }
 })

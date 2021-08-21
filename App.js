@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Dimensions, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import { Platform, StyleSheet, View, Dimensions, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
 import SideNav from './components/sideNav';
 import RecipeTitle from './components/recipeTitle';
 import RecipeItem from './components/recipeItem';
@@ -15,23 +15,28 @@ export default function App() {
       'body': [
         {
           id: 0,
-          item: '2 cans tomatoes'
+          item: '2 cans tomatoes',
+          checked: false
         },
         {
           id: 1,
-          item: 'spices'
+          item: 'spices',
+          checked: false
         },
         {
           id: 2,
-          item: 'basmati rice'
+          item: 'basmati rice',
+          checked: false
         },
         {
           id: 3,
-          item: 'yogurt'
+          item: 'yogurt',
+          checked: false
         },
         {
           id: 4,
-          item: 'veggies'
+          item: 'veggies',
+          checked: false
         }
       ]
     },
@@ -41,19 +46,23 @@ export default function App() {
       'body': [
         {
           id: 0,
-          item: '2 cans tomatoes'
+          item: '2 cans tomatoes',
+          checked: false
         },
         {
           id: 1,
-          item: 'spices'
+          item: 'spices',
+          checked: false
         },
         {
           id: 2,
-          item: 'basmati rice'
+          item: 'basmati rice',
+          checked: false
         },
         {
           id: 3,
-          item: 'yogurt'
+          item: 'yogurt',
+          checked: false
         }
       ]
     },
@@ -63,15 +72,18 @@ export default function App() {
       'body': [
         {
           id: 0,
-          item: '2 cans tomatoes'
+          item: '2 cans tomatoes',
+          checked: false
         },
         {
           id: 1,
-          item: 'spices'
+          item: 'spices',
+          checked: false
         },
         {
           id: 2,
-          item: 'basmati rice'
+          item: 'basmati rice',
+          checked: false
         }
       ]
     },
@@ -81,7 +93,8 @@ export default function App() {
       'body': [
         {
           id: 0,
-          item: '2 cans tomatoes'
+          item: '2 cans tomatoes',
+          checked: false
         }
       ]
     }
@@ -93,9 +106,15 @@ export default function App() {
   const [iconPosition, setIconPosition] = useState(8)
   const [recipeTitle, setRecipeTitle] = useState(recipes[0].title)
   const [recipeBody, setRecipeBody] = useState(recipes[0].body)
+  const [inputActive, setInputActive] = useState(true)
+  const inputEl = useRef(null);
 
   useEffect(() => {
-    // console.log('hello world')
+    if (navOpen) {Keyboard.dismiss()}
+    if (!inputActive && Platform.OS === 'ios') {
+      inputEl.current._children[recipeBody.length - 1]._children[1].focus()
+      setInputActive(true)
+    }
   });
 
   const openNav = () => {
@@ -131,13 +150,7 @@ export default function App() {
     })
   }
 
-  const handleItemChange = (index, text) => {
-    let items = [...recipeBody]
-    let item = {...items[index]}
-    item.item = text
-    items[index] = item
-    setRecipeBody(items)
-
+  const setAllRecipeData = (items) => {
     let allRecipes = [...recipes]
     const recipeIndex = allRecipes.findIndex(obj => obj.title === recipeTitle)
     let recipe = {...allRecipes[recipeIndex]}
@@ -146,21 +159,48 @@ export default function App() {
     setRecipes(allRecipes)
   }
 
+  const handleItemChange = (index, text) => {
+    if (inputActive) {
+      let items = [...recipeBody]
+      let item = {...items[index]}
+      item.item = text
+      items[index] = item
+      setRecipeBody(items)
+  
+      setAllRecipeData(items)
+    }
+  }
+
   const handleAddNewLine = (index, text) => {
     let items = [...recipeBody]
     let newItem = {
       id: index,
-      item: text
+      item: text,
+      checked: false
     }
     items.push(newItem)
     setRecipeBody(items)
     
-    let allRecipes = [...recipes]
-    const recipeIndex = allRecipes.findIndex(obj => obj.title === recipeTitle)
-    let recipe = {...allRecipes[recipeIndex]}
-    recipe.body = items
-    allRecipes[recipeIndex] = recipe
-    setRecipes(allRecipes)
+    setAllRecipeData(items)
+  }
+
+  const handleRemoveItemLine = (index) => {
+    setInputActive(false)
+    let items = [...recipeBody]
+    items.splice(index, 1)
+    setRecipeBody(items)
+
+    setAllRecipeData(items)
+  }
+
+  const handleCheckedItem = (index, checked) => {
+    let items = [...recipeBody]
+    let item = {...items[index]}
+    item.checked = checked
+    items[index] = item
+    setRecipeBody(items)
+
+    setAllRecipeData(items)
   }
 
   return (
@@ -174,6 +214,7 @@ export default function App() {
           iconPosition={iconPosition}
           window={window}
           recipes={recipes}
+          recipeTitle={recipeTitle}
           selectRecipe={selectRecipe}
         />
         <View style={recipeArea.container}>
@@ -184,16 +225,20 @@ export default function App() {
               style={inputArea.container}
             >
               <TouchableWithoutFeedback onPress={navOpen ? closeNav : Keyboard.dismiss}>
-                <View style={inputArea.inner}>
+                <View style={inputArea.inner} ref={inputEl}>
                   {recipeBody.map(item =>
                     <RecipeItem
                       value={item.item}
                       closeNav={closeNav}
                       key={item.id + 1}
                       id={item.id}
+                      checked={item.checked}
+                      handleCheckedItem={handleCheckedItem}
+                      navOpen={navOpen}
                       handleItemChange={handleItemChange}
                       newItemIndex={recipeBody.length}
                       handleAddNewLine={handleAddNewLine}
+                      handleRemoveItemLine={handleRemoveItemLine}
                     />
                   )}
                 </View>

@@ -1,12 +1,8 @@
 import React from 'react';
-import { 
-    StyleSheet, 
-    View, 
-    Image, 
-    TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, View, Image, TouchableWithoutFeedback } from 'react-native';
 import NavItems from './navItems';
 
-export default function SideNav({ toggleNav, navOpen, iconRotate, navContainerSize, iconPosition, window, recipes, selectRecipe }) {
+export default function SideNav({ toggleNav, navOpen, iconRotate, navContainerSize, iconPosition, window, recipes, recipeTitle, selectRecipe }) {
 
   return (
     <>
@@ -16,7 +12,7 @@ export default function SideNav({ toggleNav, navOpen, iconRotate, navContainerSi
             width: window.width / navContainerSize
           }]}
         >
-          <NavItems navOpen={navOpen} recipes={recipes} selectRecipe={selectRecipe} />
+          <NavItems navOpen={navOpen} recipes={recipes} recipeTitle={recipeTitle} selectRecipe={selectRecipe} />
           <View
             style={[openIcon.container, {
               width: window.width / iconPosition
