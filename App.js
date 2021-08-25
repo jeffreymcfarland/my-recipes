@@ -7,114 +7,105 @@ import RecipeItem from './components/recipeItem';
 
 const window = Dimensions.get('window')
 
-export default function App() {
-  const [recipes, setRecipes] = useState([
-    {
-      'id': 0,
-      'title': 'Tikka Masala',
-      'body': [
-        {
-          id: 0,
-          item: '2 cans tomatoes',
-          checked: false
-        },
-        {
-          id: 1,
-          item: 'spices',
-          checked: false
-        },
-        {
-          id: 2,
-          item: 'basmati rice',
-          checked: false
-        },
-        {
-          id: 3,
-          item: 'yogurt',
-          checked: false
-        },
-        {
-          id: 4,
-          item: 'veggies',
-          checked: false
-        }
-      ]
-    },
-    {
-      'id': 1,
-      'title': 'Brussel Tacos',
-      'body': [
-        {
-          id: 0,
-          item: '2 cans tomatoes',
-          checked: false
-        },
-        {
-          id: 1,
-          item: 'spices',
-          checked: false
-        },
-        {
-          id: 2,
-          item: 'basmati rice',
-          checked: false
-        },
-        {
-          id: 3,
-          item: 'yogurt',
-          checked: false
-        }
-      ]
-    },
-    {
-      'id': 2,
-      'title': 'Kale Caesar',
-      'body': [
-        {
-          id: 0,
-          item: '2 cans tomatoes',
-          checked: false
-        },
-        {
-          id: 1,
-          item: 'spices',
-          checked: false
-        },
-        {
-          id: 2,
-          item: 'basmati rice',
-          checked: false
-        }
-      ]
-    },
-    {
-      'id': 3,
-      'title': 'Gorgonzola Red Sauce Pasta',
-      'body': [
-        {
-          id: 0,
-          item: '2 cans tomatoes',
-          checked: false
-        }
-      ]
-    }
-  ])
+const dummyData = [
+  {
+    'id': 0,
+    'title': 'Tikka Masala',
+    'body': [
+      {
+        item: '2 cans tomatoes',
+        checked: false
+      },
+      {
+        item: 'spices',
+        checked: false
+      },
+      {
+        item: 'basmati rice',
+        checked: false
+      },
+      {
+        item: 'yogurt',
+        checked: false
+      },
+      {
+        item: 'veggies',
+        checked: false
+      }
+    ]
+  },
+  {
+    'id': 1,
+    'title': 'Brussel Tacos',
+    'body': [
+      {
+        item: '2 cans tomatoes',
+        checked: false
+      },
+      {
+        item: 'spices',
+        checked: false
+      },
+      {
+        item: 'basmati rice',
+        checked: false
+      },
+      {
+        item: 'yogurt',
+        checked: false
+      }
+    ]
+  },
+  {
+    'id': 2,
+    'title': 'Kale Caesar',
+    'body': [
+      {
+        item: '2 cans tomatoes',
+        checked: false
+      },
+      {
+        item: 'spices',
+        checked: false
+      },
+      {
+        item: 'basmati rice',
+        checked: false
+      }
+    ]
+  },
+  {
+    'id': 3,
+    'title': 'Gorgonzola Red Sauce Pasta',
+    'body': [
+      {
+        item: '2 cans tomatoes',
+        checked: false
+      }
+    ]
+  }
+]
 
-  const [navOpen, setNavOpen] = useState(false)
-  const [iconRotate, setIconRotate] = useState('0deg')
-  const [navContainerSize, setNavContainerSize] = useState(16)
-  const [iconPosition, setIconPosition] = useState(8)
-  const [recipeTitle, setRecipeTitle] = useState(recipes[0].title)
-  const [recipeBody, setRecipeBody] = useState(recipes[0].body)
+export default function App() {
+  const [recipes, setRecipes] = useState(dummyData)
+  const [navOpen, setNavOpen] = useState(true)
+  const [iconRotate, setIconRotate] = useState('180deg')
+  const [navContainerSize, setNavContainerSize] = useState(2)
+  const [iconPosition, setIconPosition] = useState(1)
+  const [recipeTitle, setRecipeTitle] = useState('nothing selected')
+  const [recipeBody, setRecipeBody] = useState([])
   const [inputActive, setInputActive] = useState(true)
+  const [currentItemIndex, setCurrentItemIndex] = useState()
   const inputEl = useRef(null);
 
   useEffect(() => {
     if (navOpen) {Keyboard.dismiss()}
+
     if (!inputActive && Platform.OS === 'ios') {
-      inputEl.current._children[recipeBody.length - 1]._children[1].focus()
+      inputEl.current._children[currentItemIndex]._children[1].focus()
       setInputActive(true)
     }
+    console.log(currentItemIndex)
   });
 
   const openNav = () => {
@@ -171,20 +162,23 @@ export default function App() {
     }
   }
 
-  const handleAddNewLine = (index, text) => {
+  const handleAddNewLine = (newItemIndex, index, text) => {
+    setCurrentItemIndex(index + 1)
+    setInputActive(false)
     let items = [...recipeBody]
     let newItem = {
-      id: index,
+      id: newItemIndex,
       item: text,
       checked: false
     }
-    items.push(newItem)
+    items.splice(index + 1, 0, newItem)
     setRecipeBody(items)
     
     setAllRecipeData(items)
   }
 
   const handleRemoveItemLine = (index) => {
+    setCurrentItemIndex(index - 1)
     setInputActive(false)
     let items = [...recipeBody]
     items.splice(index, 1)
@@ -203,8 +197,12 @@ export default function App() {
     setAllRecipeData(items)
   }
 
+  const handleExitKeyboard = () => {
+    Keyboard.dismiss()
+  }
+
   return (
-    <TouchableWithoutFeedback style={mainContainer.wrapper} onPress={navOpen ? closeNav : Keyboard.dismiss}>
+    <TouchableWithoutFeedback style={mainContainer.wrapper} onPress={() => navOpen ? closeNav : handleExitKeyboard}>
       <View style={mainContainer.container}>
         <SideNav
           toggleNav={toggleNav}
@@ -224,14 +222,14 @@ export default function App() {
               behavior='padding'
               style={inputArea.container}
             >
-              <TouchableWithoutFeedback onPress={navOpen ? closeNav : Keyboard.dismiss}>
+              <TouchableWithoutFeedback onPress={navOpen ? closeNav : handleExitKeyboard}>
                 <View style={inputArea.inner} ref={inputEl}>
-                  {recipeBody.map(item =>
+                  {recipeBody.map((item, index) =>
                     <RecipeItem
                       value={item.item}
                       closeNav={closeNav}
-                      key={item.id + 1}
-                      id={item.id}
+                      key={index}
+                      index={index}
                       checked={item.checked}
                       handleCheckedItem={handleCheckedItem}
                       navOpen={navOpen}
@@ -239,6 +237,8 @@ export default function App() {
                       newItemIndex={recipeBody.length}
                       handleAddNewLine={handleAddNewLine}
                       handleRemoveItemLine={handleRemoveItemLine}
+                      currentItemIndex={currentItemIndex}
+                      setCurrentItemIndex={setCurrentItemIndex}
                     />
                   )}
                 </View>

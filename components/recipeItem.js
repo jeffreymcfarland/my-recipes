@@ -2,28 +2,33 @@ import React, { useState, useEffect } from 'react';
 import { Pressable, View, TextInput, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function recipeItem({ value, closeNav, id, checked, handleCheckedItem, navOpen, handleItemChange, newItemIndex, handleAddNewLine, handleRemoveItemLine }) {
+export default function recipeItem({ value, closeNav, index, checked, handleCheckedItem, navOpen, handleItemChange, newItemIndex, handleAddNewLine, handleRemoveItemLine, currentItemIndex, setCurrentItemIndex }) {
   return (
     <View style={recipeItems.view}>
       <Pressable
         style={[recipeItems.checkboxBase, checked && recipeItems.checkboxChecked]}
-        onPress={() => handleCheckedItem(id, !checked)}
+        onPress={() => handleCheckedItem(index, !checked)}
       >
         {checked && <Ionicons name='checkmark' size={24} color='#282828' style={recipeItems.icon} />}
       </Pressable>
       <TextInput
         value={value}
-        autoFocus={!navOpen ? true : false}
-        onChangeText={text => handleItemChange(id, text)}
-        onFocus={() => closeNav}
+        // autoFocus={!navOpen || index === currentItemIndex ? true : false}
+        onChangeText={text => handleItemChange(index, text)}
+        onFocus={() => {
+          setCurrentItemIndex(index)
+          closeNav
+        }}
         editable
         blurOnSubmit={false}
         onKeyPress={data => {
-          if (data.nativeEvent.key === 'Backspace' && value === '') {
-            handleRemoveItemLine(id)
+          if (data.nativeEvent.key === 'Backspace' && value === '' && index !== 0) {
+            handleRemoveItemLine(index)
           }
         }}
-        onSubmitEditing={() => {id === (newItemIndex - 1) ? handleAddNewLine(newItemIndex, '') : console.log('no new item')}}
+        onSubmitEditing={() => {
+          handleAddNewLine(newItemIndex, index, '')
+        }}
         style={recipeItems.textInput}
       />
     </View>
