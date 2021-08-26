@@ -2,6 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState, useRef } from 'react';
 import { Platform, StyleSheet, View, Dimensions, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFonts, Roboto_500Medium } from '@expo-google-fonts/roboto';
+import AppLoading from 'expo-app-loading';
 import SideNav from './components/sideNav';
 import RecipeTitle from './components/recipeTitle';
 import RecipeItem from './components/recipeItem';
@@ -101,6 +103,9 @@ export default function App() {
   const [inputActive, setInputActive] = useState(true)
   const [currentItemIndex, setCurrentItemIndex] = useState()
   const inputEl = useRef(null);
+  let [fontsLoaded] = useFonts({
+    Roboto_500Medium,
+  });
 
   const getUserData = async () => {
     try {
@@ -227,68 +232,72 @@ export default function App() {
     Keyboard.dismiss()
   }
 
-  return (
-    <>
-    {userName === '' && userFavFood === '' ?
-      <FirstScreen
-        userName={userName}
-        setUserName={setUserName}
-        userFavFood={userFavFood}
-        setUserFavFood={setUserFavFood}
-        window={window}
-        handleExitKeyboard={handleExitKeyboard}
-      />
-      :
-      <TouchableWithoutFeedback style={mainContainer.wrapper} onPress={() => navOpen ? closeNav : handleExitKeyboard}>
-        <View style={mainContainer.container}>
-          <SideNav
-            toggleNav={toggleNav}
-            navOpen={navOpen}
-            iconRotate={iconRotate}
-            navContainerSize={navContainerSize}
-            iconPosition={iconPosition}
-            window={window}
-            recipes={recipes}
-            recipeTitle={recipeTitle}
-            selectRecipe={selectRecipe}
-          />
-          <View style={recipeArea.container}>
-            <RecipeTitle title={recipeTitle} window={window} />
-            <View style={recipeArea.body}>
-              <KeyboardAvoidingView
-                behavior='padding'
-                style={inputArea.container}
-              >
-                <TouchableWithoutFeedback onPress={navOpen ? closeNav : handleExitKeyboard}>
-                  <View style={inputArea.inner} ref={inputEl}>
-                    {recipeBody.map((item, index) =>
-                      <RecipeItem
-                        value={item.item}
-                        closeNav={closeNav}
-                        key={index}
-                        index={index}
-                        checked={item.checked}
-                        handleCheckedItem={handleCheckedItem}
-                        navOpen={navOpen}
-                        handleItemChange={handleItemChange}
-                        newItemIndex={recipeBody.length}
-                        handleAddNewLine={handleAddNewLine}
-                        handleRemoveItemLine={handleRemoveItemLine}
-                        currentItemIndex={currentItemIndex}
-                        setCurrentItemIndex={setCurrentItemIndex}
-                      />
-                    )}
-                  </View>
-                </TouchableWithoutFeedback>
-              </KeyboardAvoidingView>
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  } else {
+    return (
+      <>
+      {userName === '' && userFavFood === '' ?
+        <FirstScreen
+          userName={userName}
+          setUserName={setUserName}
+          userFavFood={userFavFood}
+          setUserFavFood={setUserFavFood}
+          window={window}
+          handleExitKeyboard={handleExitKeyboard}
+        />
+        :
+        <TouchableWithoutFeedback style={mainContainer.wrapper} onPress={() => navOpen ? closeNav : handleExitKeyboard}>
+          <View style={mainContainer.container}>
+            <SideNav
+              toggleNav={toggleNav}
+              navOpen={navOpen}
+              iconRotate={iconRotate}
+              navContainerSize={navContainerSize}
+              iconPosition={iconPosition}
+              window={window}
+              recipes={recipes}
+              recipeTitle={recipeTitle}
+              selectRecipe={selectRecipe}
+            />
+            <View style={recipeArea.container}>
+              <RecipeTitle title={recipeTitle} window={window} />
+              <View style={recipeArea.body}>
+                <KeyboardAvoidingView
+                  behavior='padding'
+                  style={inputArea.container}
+                >
+                  <TouchableWithoutFeedback onPress={navOpen ? closeNav : handleExitKeyboard}>
+                    <View style={inputArea.inner} ref={inputEl}>
+                      {recipeBody.map((item, index) =>
+                        <RecipeItem
+                          value={item.item}
+                          closeNav={closeNav}
+                          key={index}
+                          index={index}
+                          checked={item.checked}
+                          handleCheckedItem={handleCheckedItem}
+                          navOpen={navOpen}
+                          handleItemChange={handleItemChange}
+                          newItemIndex={recipeBody.length}
+                          handleAddNewLine={handleAddNewLine}
+                          handleRemoveItemLine={handleRemoveItemLine}
+                          currentItemIndex={currentItemIndex}
+                          setCurrentItemIndex={setCurrentItemIndex}
+                        />
+                      )}
+                    </View>
+                  </TouchableWithoutFeedback>
+                </KeyboardAvoidingView>
+              </View>
             </View>
+            <StatusBar style="auto" />
           </View>
-          <StatusBar style="auto" />
-        </View>
-      </TouchableWithoutFeedback>
-    }
-    </>
-  );
+        </TouchableWithoutFeedback>
+      }
+      </>
+    );
+  }
 }
 
 const inputArea = StyleSheet.create({
@@ -313,7 +322,8 @@ const recipeArea = StyleSheet.create({
 
 const mainContainer = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    fontFamily: 'Roboto_500Medium'
   },
   wrapper: {
     height: window.height,

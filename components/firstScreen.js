@@ -27,7 +27,7 @@ export default function firstScreen({ window, handleExitKeyboard, userName, setU
   }
 
   return (
-    <TouchableWithoutFeedback onPress={handleExitKeyboard}>
+    <TouchableWithoutFeedback onPress={handleExitKeyboard} style={{fontFamily: 'Roboto_500Medium'}}>
       <View style={styles.view}>
         <Text style={styles.title}>My Recipes</Text>
         <View style={styles.inputView}>
@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
     marginTop: 5
   },
   inputLabel: {
+    width: '55%',
     alignSelf: 'center',
     fontSize: 20,
     fontWeight: '600',
