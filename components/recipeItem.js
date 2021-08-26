@@ -13,7 +13,6 @@ export default function recipeItem({ value, closeNav, index, checked, handleChec
       </Pressable>
       <TextInput
         value={value}
-        // autoFocus={!navOpen || index === currentItemIndex ? true : false}
         onChangeText={text => handleItemChange(index, text)}
         onFocus={() => {
           setCurrentItemIndex(index)

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { StyleSheet, View, Text, FlatList, TouchableHighlight } from 'react-native';
 
 const Item = ({ title, recipeTitle, selectRecipe }) => (
@@ -48,7 +48,6 @@ const navItems = StyleSheet.create({
   },
   touch: {
     width: '100%',
-    
   },
   itemsWrapper: {
     width: '100%',

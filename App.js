@@ -1,9 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState, useRef } from 'react';
 import { Platform, StyleSheet, View, Dimensions, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import SideNav from './components/sideNav';
 import RecipeTitle from './components/recipeTitle';
 import RecipeItem from './components/recipeItem';
+import FirstScreen from './components/firstScreen';
 
 const window = Dimensions.get('window')
 
@@ -87,16 +89,37 @@ const dummyData = [
 ]
 
 export default function App() {
+  const [userName, setUserName] = useState('')
+  const [userFavFood, setUserFavFood] = useState('')
   const [recipes, setRecipes] = useState(dummyData)
   const [navOpen, setNavOpen] = useState(true)
   const [iconRotate, setIconRotate] = useState('180deg')
   const [navContainerSize, setNavContainerSize] = useState(2)
   const [iconPosition, setIconPosition] = useState(1)
-  const [recipeTitle, setRecipeTitle] = useState('nothing selected')
+  const [recipeTitle, setRecipeTitle] = useState('My Recipes')
   const [recipeBody, setRecipeBody] = useState([])
   const [inputActive, setInputActive] = useState(true)
   const [currentItemIndex, setCurrentItemIndex] = useState()
   const inputEl = useRef(null);
+
+  const getUserData = async () => {
+    try {
+      const user = await AsyncStorage.getItem('@userName')
+      if(user !== null) {
+        setUserName(user)
+      }
+    } catch(e) {
+      console.log(e)
+    }
+    try {
+      const food = await AsyncStorage.getItem('@userFavFood')
+      if(food !== null) {
+        setUserFavFood(food)
+      }
+    } catch(e) {
+      console.log(e)
+    }
+  }
 
   useEffect(() => {
     if (navOpen) {Keyboard.dismiss()}
@@ -105,7 +128,10 @@ export default function App() {
       inputEl.current._children[currentItemIndex]._children[1].focus()
       setInputActive(true)
     }
-    console.log(currentItemIndex)
+
+    if (userName === '' && userFavFood === '') {
+      getUserData()
+    }
   });
 
   const openNav = () => {
@@ -202,53 +228,66 @@ export default function App() {
   }
 
   return (
-    <TouchableWithoutFeedback style={mainContainer.wrapper} onPress={() => navOpen ? closeNav : handleExitKeyboard}>
-      <View style={mainContainer.container}>
-        <SideNav
-          toggleNav={toggleNav}
-          navOpen={navOpen}
-          iconRotate={iconRotate}
-          navContainerSize={navContainerSize}
-          iconPosition={iconPosition}
-          window={window}
-          recipes={recipes}
-          recipeTitle={recipeTitle}
-          selectRecipe={selectRecipe}
-        />
-        <View style={recipeArea.container}>
-          <RecipeTitle title={recipeTitle} window={window} />
-          <View style={recipeArea.body}>
-            <KeyboardAvoidingView
-              behavior='padding'
-              style={inputArea.container}
-            >
-              <TouchableWithoutFeedback onPress={navOpen ? closeNav : handleExitKeyboard}>
-                <View style={inputArea.inner} ref={inputEl}>
-                  {recipeBody.map((item, index) =>
-                    <RecipeItem
-                      value={item.item}
-                      closeNav={closeNav}
-                      key={index}
-                      index={index}
-                      checked={item.checked}
-                      handleCheckedItem={handleCheckedItem}
-                      navOpen={navOpen}
-                      handleItemChange={handleItemChange}
-                      newItemIndex={recipeBody.length}
-                      handleAddNewLine={handleAddNewLine}
-                      handleRemoveItemLine={handleRemoveItemLine}
-                      currentItemIndex={currentItemIndex}
-                      setCurrentItemIndex={setCurrentItemIndex}
-                    />
-                  )}
-                </View>
-              </TouchableWithoutFeedback>
-            </KeyboardAvoidingView>
+    <>
+    {userName === '' && userFavFood === '' ?
+      <FirstScreen
+        userName={userName}
+        setUserName={setUserName}
+        userFavFood={userFavFood}
+        setUserFavFood={setUserFavFood}
+        window={window}
+        handleExitKeyboard={handleExitKeyboard}
+      />
+      :
+      <TouchableWithoutFeedback style={mainContainer.wrapper} onPress={() => navOpen ? closeNav : handleExitKeyboard}>
+        <View style={mainContainer.container}>
+          <SideNav
+            toggleNav={toggleNav}
+            navOpen={navOpen}
+            iconRotate={iconRotate}
+            navContainerSize={navContainerSize}
+            iconPosition={iconPosition}
+            window={window}
+            recipes={recipes}
+            recipeTitle={recipeTitle}
+            selectRecipe={selectRecipe}
+          />
+          <View style={recipeArea.container}>
+            <RecipeTitle title={recipeTitle} window={window} />
+            <View style={recipeArea.body}>
+              <KeyboardAvoidingView
+                behavior='padding'
+                style={inputArea.container}
+              >
+                <TouchableWithoutFeedback onPress={navOpen ? closeNav : handleExitKeyboard}>
+                  <View style={inputArea.inner} ref={inputEl}>
+                    {recipeBody.map((item, index) =>
+                      <RecipeItem
+                        value={item.item}
+                        closeNav={closeNav}
+                        key={index}
+                        index={index}
+                        checked={item.checked}
+                        handleCheckedItem={handleCheckedItem}
+                        navOpen={navOpen}
+                        handleItemChange={handleItemChange}
+                        newItemIndex={recipeBody.length}
+                        handleAddNewLine={handleAddNewLine}
+                        handleRemoveItemLine={handleRemoveItemLine}
+                        currentItemIndex={currentItemIndex}
+                        setCurrentItemIndex={setCurrentItemIndex}
+                      />
+                    )}
+                  </View>
+                </TouchableWithoutFeedback>
+              </KeyboardAvoidingView>
+            </View>
           </View>
+          <StatusBar style="auto" />
         </View>
-        <StatusBar style="auto" />
-      </View>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+    }
+    </>
   );
 }
 
