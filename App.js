@@ -102,6 +102,7 @@ const dummyData = [
 ]
 
 export default function App() {
+  const [appReady, setAppReady] = useState(false)
   const [userName, setUserName] = useState('')
   const [userFavFood, setUserFavFood] = useState('')
   const [collectionName, setCollectionName] = useState('')
@@ -127,7 +128,6 @@ export default function App() {
       }
     } catch(e) {
       console.log(e)
-      console.log('test1')
     }
     try {
       const food = await AsyncStorage.getItem('@userFavFood')
@@ -136,16 +136,23 @@ export default function App() {
       }
     } catch(e) {
       console.log(e)
-      console.log('test2')
     }
     try {
       const collection = await AsyncStorage.getItem('@userCollectionName')
       if(collection !== null) {
         setCollectionName(collection)
+        dbh.collection(collection).get().then(docs => {
+          let array = []
+          if (docs.size !== 0) {
+            docs.forEach(doc => array.push(doc.data()))
+            setRecipes(array)
+          } else {
+            setRecipes(dummyData)
+          }
+        })
       }
     } catch(e) {
       console.log(e)
-      console.log('test3')
     }
   }
 
@@ -157,31 +164,12 @@ export default function App() {
       setInputActive(true)
     }
 
-    if (userName === '' && userFavFood === '') {
-      getUserData()
-    }
-
     // let keys = ['@userName', '@userFavFood', '@userCollectionName'];
     // AsyncStorage.multiRemove(keys, (err) => {
     //   // keys k1 & k2 removed, if they existed
     //   // do most stuff after removal (if you want)
     // });
   });
-
-  useEffect(() => {
-    if (userName && userFavFood && collectionName) {
-      dbh.collection(collectionName).get().then(docs => {
-        let array = []
-        if (docs.size !== 0) {
-          docs.forEach(doc => array.push(doc.data()))
-          setRecipes(array)
-        } else {
-          setRecipes(dummyData)
-        }
-      })
-    }
-    console.log(collectionName)
-  }, []);
 
   const openNav = () => {
     setIconRotate('180deg')
@@ -277,8 +265,18 @@ export default function App() {
     Keyboard.dismiss()
   }
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
+  const handleAppLoading = () => {
+    getUserData()
+  }
+
+  if (!fontsLoaded && !appReady) {
+    return (
+      <AppLoading
+        startAsync={handleAppLoading}
+        onFinish={() => setAppReady(true)}
+        onError={console.warn}
+      />
+    )
   } else {
     return (
       <>
