@@ -4,10 +4,21 @@ import { Platform, StyleSheet, View, Dimensions, TouchableWithoutFeedback, Keybo
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts, Roboto_500Medium } from '@expo-google-fonts/roboto';
 import AppLoading from 'expo-app-loading';
+import firebase from 'firebase'
+require('firebase/firestore');
+import apiKeys from './config/keys';
 import SideNav from './components/sideNav';
 import RecipeTitle from './components/recipeTitle';
 import RecipeItem from './components/recipeItem';
 import FirstScreen from './components/firstScreen';
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(apiKeys.firebaseConfig);
+} else {
+  firebase.app();
+}
+
+const dbh = firebase.firestore();
 
 const window = Dimensions.get('window')
 
@@ -93,7 +104,8 @@ const dummyData = [
 export default function App() {
   const [userName, setUserName] = useState('')
   const [userFavFood, setUserFavFood] = useState('')
-  const [recipes, setRecipes] = useState(dummyData)
+  const [collectionName, setCollectionName] = useState('')
+  const [recipes, setRecipes] = useState([])
   const [navOpen, setNavOpen] = useState(true)
   const [iconRotate, setIconRotate] = useState('180deg')
   const [navContainerSize, setNavContainerSize] = useState(2)
@@ -115,6 +127,7 @@ export default function App() {
       }
     } catch(e) {
       console.log(e)
+      console.log('test1')
     }
     try {
       const food = await AsyncStorage.getItem('@userFavFood')
@@ -123,6 +136,16 @@ export default function App() {
       }
     } catch(e) {
       console.log(e)
+      console.log('test2')
+    }
+    try {
+      const collection = await AsyncStorage.getItem('@userCollectionName')
+      if(collection !== null) {
+        setCollectionName(collection)
+      }
+    } catch(e) {
+      console.log(e)
+      console.log('test3')
     }
   }
 
@@ -137,7 +160,28 @@ export default function App() {
     if (userName === '' && userFavFood === '') {
       getUserData()
     }
+
+    // let keys = ['@userName', '@userFavFood', '@userCollectionName'];
+    // AsyncStorage.multiRemove(keys, (err) => {
+    //   // keys k1 & k2 removed, if they existed
+    //   // do most stuff after removal (if you want)
+    // });
   });
+
+  useEffect(() => {
+    if (userName && userFavFood && collectionName) {
+      dbh.collection(collectionName).get().then(docs => {
+        let array = []
+        if (docs.size !== 0) {
+          docs.forEach(doc => array.push(doc.data()))
+          setRecipes(array)
+        } else {
+          setRecipes(dummyData)
+        }
+      })
+    }
+    console.log(collectionName)
+  }, []);
 
   const openNav = () => {
     setIconRotate('180deg')
@@ -178,6 +222,7 @@ export default function App() {
     let recipe = {...allRecipes[recipeIndex]}
     recipe.body = items
     allRecipes[recipeIndex] = recipe
+    allRecipes.map(eachRecipe => dbh.collection(collectionName).doc(eachRecipe.title).set(eachRecipe))
     setRecipes(allRecipes)
   }
 
@@ -245,6 +290,7 @@ export default function App() {
           setUserFavFood={setUserFavFood}
           window={window}
           handleExitKeyboard={handleExitKeyboard}
+          setCollectionName={setCollectionName}
         />
         :
         <TouchableWithoutFeedback style={mainContainer.wrapper} onPress={() => navOpen ? closeNav : handleExitKeyboard}>

@@ -2,18 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { View, TextInput, StyleSheet, TouchableWithoutFeedback, Text, TouchableHighlight } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function firstScreen({ window, handleExitKeyboard, userName, setUserName, userFavFood, setUserFavFood }) {
+export default function firstScreen({ window, handleExitKeyboard, setUserName, setUserFavFood, setCollectionName }) {
   const [user, onChangeUser] = useState('');
   const [food, onChangeFood] = useState('');
 
   const setUserData = () => {
     setUserName(user)
     setUserFavFood(food)
-    storeUserData(user, food)
+    const collectionName = `${user.trim().replace(' ', '-').toLowerCase()}${food.trim().replace(' ', '-').toLowerCase()}`
+    setCollectionName(collectionName)
+    storeUserData(user, food, collectionName)
   }
 
-  const storeUserData = async (user, food) => {
-    // const value = `${user.trim().replace(' ', '-').toLowerCase()}${food.trim().replace(' ', '-').toLowerCase()}`
+  const storeUserData = async (user, food, collectionName) => {
     try {
       await AsyncStorage.setItem('@userName', user)
     } catch (e) {
@@ -21,6 +22,11 @@ export default function firstScreen({ window, handleExitKeyboard, userName, setU
     }
     try {
       await AsyncStorage.setItem('@userFavFood', food)
+    } catch (e) {
+      console.log(e)
+    }
+    try {
+      await AsyncStorage.setItem('@userCollectionName', collectionName)
     } catch (e) {
       console.log(e)
     }
