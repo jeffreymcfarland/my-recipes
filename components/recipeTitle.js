@@ -17,7 +17,7 @@ const titleStyles = StyleSheet.create({
     paddingBottom: 20
   },
   title: {
-    color: '#282828',
+    color: '#333333',
     fontSize: 30,
     fontWeight: '500'
   }

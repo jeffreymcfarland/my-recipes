@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, TextInput, StyleSheet, TouchableWithoutFeedback, Text, TouchableHighlight } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function firstScreen({ window, handleExitKeyboard, setUserName, setUserFavFood, setCollectionName }) {
+export default function firstScreen({ window, handleExitKeyboard, setUserName, setUserFavFood, setCollectionName, getUserData }) {
   const [user, onChangeUser] = useState('');
   const [food, onChangeFood] = useState('');
 
@@ -12,6 +12,7 @@ export default function firstScreen({ window, handleExitKeyboard, setUserName, s
     const collectionName = `${user.trim().replace(' ', '-').toLowerCase()}${food.trim().replace(' ', '-').toLowerCase()}`
     setCollectionName(collectionName)
     storeUserData(user, food, collectionName)
+    getUserData()
   }
 
   const storeUserData = async (user, food, collectionName) => {
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: '600',
     paddingTop: 120,
-    color: '#282828'
+    color: '#333333'
   },
   inputView: {
     flex: 1,
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
   },
   input: {
     alignSelf: 'center',
-    borderColor: '#282828',
+    borderColor: '#333333',
     borderWidth: 2,
     borderRadius: 4,
     height: 45,
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 20,
     fontWeight: '600',
-    color: '#282828'
+    color: '#333333'
   },
   submitBtn: {
     width: 100,

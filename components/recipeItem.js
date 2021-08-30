@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Pressable, View, TextInput, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function recipeItem({ value, closeNav, index, checked, handleCheckedItem, navOpen, handleItemChange, newItemIndex, handleAddNewLine, handleRemoveItemLine, currentItemIndex, setCurrentItemIndex }) {
+export default function recipeItem({ value, closeNav, index, checked, handleCheckedItem, handleItemChange, newItemIndex, handleAddNewLine, handleRemoveItemLine, currentItemIndex, setCurrentItemIndex }) {
   return (
     <View style={recipeItems.view}>
       <Pressable
         style={[recipeItems.checkboxBase, checked && recipeItems.checkboxChecked]}
         onPress={() => handleCheckedItem(index, !checked)}
       >
-        {checked && <Ionicons name='checkmark' size={24} color='#282828' style={recipeItems.icon} />}
+        {checked && <Ionicons name='checkmark' size={24} color='#333333' style={recipeItems.icon} />}
       </Pressable>
       <TextInput
         value={value}
@@ -46,7 +46,7 @@ const recipeItems = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 4,
     borderWidth: 2,
-    borderColor: '#282828',
+    borderColor: '#333333',
     backgroundColor: 'transparent',
     overflow: 'visible'
   },

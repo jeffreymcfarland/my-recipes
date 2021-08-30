@@ -22,7 +22,7 @@ export default function SideNav({ navOpen, recipes, recipeTitle, selectRecipe })
         <FlatList 
           data={recipes}
           renderItem={({ item }) => <Item title={item.title} recipeTitle={recipeTitle} selectRecipe={selectRecipe} />}
-          keyExtractor={item => item.id.toString()}
+          keyExtractor={(item, index) => index.toString()}
           style={navItems.list}
         />
       </View>
@@ -43,7 +43,6 @@ const navItems = StyleSheet.create({
   },
   list: {
     width: '100%',
-    paddingTop: 60,
     zIndex: 5
   },
   touch: {

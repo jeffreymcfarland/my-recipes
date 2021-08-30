@@ -24,7 +24,6 @@ const window = Dimensions.get('window')
 
 const dummyData = [
   {
-    'id': 0,
     'title': 'Tikka Masala',
     'body': [
       {
@@ -50,7 +49,6 @@ const dummyData = [
     ]
   },
   {
-    'id': 1,
     'title': 'Brussel Tacos',
     'body': [
       {
@@ -72,7 +70,6 @@ const dummyData = [
     ]
   },
   {
-    'id': 2,
     'title': 'Kale Caesar',
     'body': [
       {
@@ -90,7 +87,6 @@ const dummyData = [
     ]
   },
   {
-    'id': 3,
     'title': 'Gorgonzola Red Sauce Pasta',
     'body': [
       {
@@ -202,6 +198,8 @@ export default function App() {
         setRecipeBody(recipe.body)
       }
     })
+
+    closeNav()
   }
 
   const setAllRecipeData = (items) => {
@@ -210,6 +208,31 @@ export default function App() {
     let recipe = {...allRecipes[recipeIndex]}
     recipe.body = items
     allRecipes[recipeIndex] = recipe
+    allRecipes.map(eachRecipe => dbh.collection(collectionName).doc(eachRecipe.title).set(eachRecipe))
+    setRecipes(allRecipes)
+  }
+
+  const handleRemoveRecipe = () => {
+    let allRecipes = [...recipes]
+    const recipeIndex = allRecipes.findIndex(obj => obj.title === recipeTitle)
+    allRecipes.splice(recipeIndex, 1)
+    allRecipes.map(eachRecipe => dbh.collection(collectionName).doc(eachRecipe.title).set(eachRecipe))
+    setRecipes(allRecipes)
+    selectRecipe(allRecipes[0].title)
+  }
+
+  const handleAddRecipe = (title) => {
+    let allRecipes = [...recipes]
+    let newRecipe = {
+      'title': `${title}`,
+      'body': [
+        {
+          item: '',
+          checked: false
+        }
+      ]
+    }
+    allRecipes.unshift(newRecipe)
     allRecipes.map(eachRecipe => dbh.collection(collectionName).doc(eachRecipe.title).set(eachRecipe))
     setRecipes(allRecipes)
   }
@@ -289,6 +312,7 @@ export default function App() {
           window={window}
           handleExitKeyboard={handleExitKeyboard}
           setCollectionName={setCollectionName}
+          getUserData={getUserData}
         />
         :
         <TouchableWithoutFeedback style={mainContainer.wrapper} onPress={() => navOpen ? closeNav : handleExitKeyboard}>
@@ -303,6 +327,8 @@ export default function App() {
               recipes={recipes}
               recipeTitle={recipeTitle}
               selectRecipe={selectRecipe}
+              handleRemoveRecipe={handleRemoveRecipe}
+              handleAddRecipe={handleAddRecipe}
             />
             <View style={recipeArea.container}>
               <RecipeTitle title={recipeTitle} window={window} />
@@ -321,7 +347,6 @@ export default function App() {
                           index={index}
                           checked={item.checked}
                           handleCheckedItem={handleCheckedItem}
-                          navOpen={navOpen}
                           handleItemChange={handleItemChange}
                           newItemIndex={recipeBody.length}
                           handleAddNewLine={handleAddNewLine}

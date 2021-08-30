@@ -1,8 +1,9 @@
 import React from 'react';
 import { StyleSheet, View, Image, TouchableWithoutFeedback } from 'react-native';
 import NavItems from './navItems';
+import HandleNavItems from './handleNavItems';
 
-export default function SideNav({ toggleNav, navOpen, iconRotate, navContainerSize, iconPosition, window, recipes, recipeTitle, selectRecipe }) {
+export default function SideNav({ toggleNav, navOpen, iconRotate, navContainerSize, iconPosition, window, recipes, recipeTitle, selectRecipe, handleRemoveRecipe, handleAddRecipe }) {
 
   return (
     <>
@@ -12,6 +13,12 @@ export default function SideNav({ toggleNav, navOpen, iconRotate, navContainerSi
             width: window.width / navContainerSize
           }]}
         >
+          {navOpen ? 
+            <HandleNavItems
+              recipeTitle={recipeTitle}
+              handleRemoveRecipe={handleRemoveRecipe} 
+              handleAddRecipe={handleAddRecipe}
+            /> : <></>}
           <NavItems navOpen={navOpen} recipes={recipes} recipeTitle={recipeTitle} selectRecipe={selectRecipe} />
           <View
             style={[openIcon.container, {
@@ -43,8 +50,8 @@ const sideNav = StyleSheet.create({
     zIndex: 2,
     position: 'absolute',
     borderRightWidth: 2,
-    borderColor: '#282828',
-    shadowColor: '#282828',
+    borderColor: '#333333',
+    shadowColor: '#333333',
     shadowOffset: {
     width: 4,
     height: 0
@@ -66,7 +73,7 @@ const openIcon = StyleSheet.create({
     zIndex: 3,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#282828',
+    shadowColor: '#333333',
     shadowOffset: {
       width: 4,
       height: 0
