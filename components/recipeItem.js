@@ -2,7 +2,7 @@ import React from 'react';
 import { Pressable, View, TextInput, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function recipeItem({ value, closeNav, index, checked, handleCheckedItem, handleItemChange, newItemIndex, handleAddNewLine, handleRemoveItemLine, currentItemIndex, setCurrentItemIndex }) {
+export default function recipeItem({ value, closeNav, index, checked, handleCheckedItem, handleItemChange, handleAddNewLine, handleRemoveItemLine, currentItemIndex, setCurrentItemIndex }) {
   return (
     <View style={recipeItems.view}>
       <Pressable
@@ -26,7 +26,8 @@ export default function recipeItem({ value, closeNav, index, checked, handleChec
           }
         }}
         onSubmitEditing={() => {
-          handleAddNewLine(newItemIndex, index, '')
+          setCurrentItemIndex(index + 1)
+          handleAddNewLine(index + 1, index, '')
         }}
         style={recipeItems.textInput}
       />

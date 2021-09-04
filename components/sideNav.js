@@ -18,8 +18,9 @@ export default function SideNav({ toggleNav, navOpen, iconRotate, navContainerSi
               recipeTitle={recipeTitle}
               handleRemoveRecipe={handleRemoveRecipe} 
               handleAddRecipe={handleAddRecipe}
+              selectRecipe={selectRecipe}
             /> : <></>}
-          <NavItems navOpen={navOpen} recipes={recipes} recipeTitle={recipeTitle} selectRecipe={selectRecipe} />
+          <NavItems navOpen={navOpen} recipes={recipes} recipeTitle={recipeTitle} selectRecipe={selectRecipe} handleRemoveRecipe={handleRemoveRecipe} />
           <View
             style={[openIcon.container, {
               width: window.width / iconPosition
@@ -63,6 +64,7 @@ const sideNav = StyleSheet.create({
 const openIcon = StyleSheet.create({
   container: {
     position: 'absolute',
+    zIndex: 6,
     top: '50%',
     alignItems: 'center'
   },
@@ -70,7 +72,6 @@ const openIcon = StyleSheet.create({
     width: 35,
     height: 35,
     backgroundColor: 'transparent',
-    zIndex: 3,
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#333333',

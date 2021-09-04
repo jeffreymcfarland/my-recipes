@@ -1,29 +1,59 @@
-import React from 'react';
-import { StyleSheet, View, Text, FlatList, TouchableHighlight } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, FlatList, Pressable, Alert } from 'react-native';
 
-const Item = ({ title, recipeTitle, selectRecipe }) => (
-  <TouchableHighlight
-    style={[navItems.touch, title === recipeTitle ? navItems.selectedItem : {}]}
-    onPress={() => selectRecipe(title)}
-    underlayColor={'#EBEBEB'}
-  >
-    <View style={navItems.itemsWrapper}>
-      <Text style={navItems.item} numberOfLines={1}>{title}</Text>
-    </View>
-  </TouchableHighlight>
-)
+function Item({ title, recipeTitle, selectRecipe, handleRemoveRecipe }) {
+  const [deleteTitle, setDeleteTitle] = useState('')
 
-export default function SideNav({ navOpen, recipes, recipeTitle, selectRecipe }) {
+  const changeHighLight =(title) => {
+    setDeleteTitle(title)
+  }
+
+  const alert = (title) => {
+    Alert.alert(
+      'Delete Recipe',
+      `Are you sure you want to delete the recipe ${title}?`,
+      [
+        {
+          text: 'Cancel',
+          onPress: () => setDeleteTitle(''),
+          style: 'cancel'
+        },
+        {
+          text: 'Delete',
+          onPress: () => handleRemoveRecipe(title)
+        }
+      ]
+    )
+  }
+
+  return (
+    <Pressable
+      style={({ pressed }) => [{backgroundColor: pressed ? '#EBEBEB' : '#ffffff'}, styles.touch, title === recipeTitle ? styles.selectedItem : {}, title === deleteTitle ? {backgroundColor: '#B35F56'}: {}]}
+      onPress={() => selectRecipe(title)}
+      // underlayColor={'#EBEBEB'}
+      onLongPress={() => {
+        changeHighLight(title)
+        alert(title)
+      }}
+    >
+      <View style={styles.itemsWrapper}>
+        <Text style={[styles.item, title === deleteTitle ? {color: '#ffffff'} : {}]} numberOfLines={1}>{title}</Text>
+      </View>
+    </Pressable>
+  )
+}
+
+export default function SideNav({ navOpen, recipes, recipeTitle, selectRecipe, handleRemoveRecipe }) {
 
   return(
     <>
       {navOpen ?
-      <View style={navItems.container}>
+      <View style={styles.container}>
         <FlatList 
           data={recipes}
-          renderItem={({ item }) => <Item title={item.title} recipeTitle={recipeTitle} selectRecipe={selectRecipe} />}
+          renderItem={({ item }) => <Item title={item.title} recipeTitle={recipeTitle} selectRecipe={selectRecipe} handleRemoveRecipe={handleRemoveRecipe} />}
           keyExtractor={(item, index) => index.toString()}
-          style={navItems.list}
+          style={styles.list}
         />
       </View>
       :
@@ -33,17 +63,17 @@ export default function SideNav({ navOpen, recipes, recipeTitle, selectRecipe })
   )
 }
 
-const navItems = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 4
+    zIndex: 3
   },
   list: {
     width: '100%',
-    zIndex: 5
+    zIndex: 4
   },
   touch: {
     width: '100%',
@@ -53,7 +83,7 @@ const navItems = StyleSheet.create({
     height: 60,
     alignItems: 'flex-start',
     justifyContent: 'center',
-    zIndex: 6
+    zIndex: 5
   },
   item: {
     marginLeft: 20,
