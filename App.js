@@ -256,7 +256,6 @@ export default function App() {
   }
 
   const handleAddNewLine = (newItemIndex, index, text) => {
-    // setCurrentItemIndex(newItemIndex)
     let items = [...recipeBody]
     let newItem = {
       item: text,
@@ -266,7 +265,6 @@ export default function App() {
     setRecipeBody(items)
     
     setAllRecipeData(items)
-    setInputActive(false)
   }
 
   const handleRemoveItemLine = (index) => {
@@ -403,6 +401,6 @@ const styles = StyleSheet.create({
   },
   ingredientsTitle: {
     fontSize: 24,
-    paddingBottom: 12
+    paddingBottom: 18
   }
 })

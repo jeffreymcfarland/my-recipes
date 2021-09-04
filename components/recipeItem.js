@@ -9,7 +9,7 @@ export default function recipeItem({ value, closeNav, index, checked, handleChec
         style={[recipeItems.checkboxBase, checked && recipeItems.checkboxChecked]}
         onPress={() => handleCheckedItem(index, !checked)}
       >
-        {checked && <Ionicons name='checkmark' size={24} color='#333333' style={recipeItems.icon} />}
+        {checked && <Ionicons name='checkmark' size={24} color='#8C9178' style={recipeItems.icon} />}
       </Pressable>
       <TextInput
         value={value}
@@ -18,6 +18,7 @@ export default function recipeItem({ value, closeNav, index, checked, handleChec
           setCurrentItemIndex(index)
           closeNav
         }}
+        autoFocus={currentItemIndex === index ? true : false}
         editable
         blurOnSubmit={false}
         onKeyPress={data => {
@@ -47,12 +48,12 @@ const recipeItems = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 4,
     borderWidth: 2,
-    borderColor: '#333333',
+    borderColor: '#8C9178',
     backgroundColor: 'transparent',
     overflow: 'visible'
   },
   checkboxChecked: {
-    backgroundColor: '#EBEBEB',
+    backgroundColor: '#ffffff',
   },
   icon: {
     
