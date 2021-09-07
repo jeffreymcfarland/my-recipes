@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Pressable, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import CustomModal from './modal';
+import { COLORS } from '../config/colors';
 
 export default function handleNavItems({ handleAddRecipe, selectRecipe }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -11,14 +12,14 @@ export default function handleNavItems({ handleAddRecipe, selectRecipe }) {
       <CustomModal handleAddRecipe={handleAddRecipe} modalVisible={modalVisible} setModalVisible={setModalVisible} />
       <Pressable
         onPress={() => selectRecipe('My Recipes')}
-        style={({ pressed }) => [styles.pressableHome, {backgroundColor: pressed ? '#777B65' : '#8C9178'}]}
+        style={({ pressed }) => [styles.pressableHome, {backgroundColor: pressed ? COLORS.xanadu : COLORS.artichoke}]}
       >
         <Text style={styles.home}>Home</Text>
       </Pressable>
       <Pressable
         onPress={() => setModalVisible(true)}
       >
-        <Ionicons name={'ios-add'} size={40} color='#8C9178' style={styles.addIcon} />
+        <Ionicons name={'ios-add'} size={40} color={COLORS.artichoke} style={styles.addIcon} />
       </Pressable>
     </View>
   )
@@ -42,11 +43,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     alignSelf: 'center',
-    color: '#ffffff'
+    color: COLORS.white
   },
   addIcon: {
     backgroundColor: 'transparent',
-    shadowColor: '#333333',
+    shadowColor: COLORS.jet,
     shadowOffset: {
       width: 2,
       height: 1

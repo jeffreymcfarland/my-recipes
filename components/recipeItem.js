@@ -1,22 +1,23 @@
 import React from 'react';
 import { Pressable, View, TextInput, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { COLORS } from '../config/colors';
 
 export default function recipeItem({ value, closeNav, index, checked, handleCheckedItem, handleItemChange, handleAddNewLine, handleRemoveItemLine, currentItemIndex, setCurrentItemIndex }) {
   return (
-    <View style={recipeItems.view}>
+    <View style={styles.view}>
       <Pressable
-        style={[recipeItems.checkboxBase, checked && recipeItems.checkboxChecked]}
+        style={[styles.checkboxBase, checked && styles.checkboxChecked]}
         onPress={() => handleCheckedItem(index, !checked)}
       >
-        {checked && <Ionicons name='checkmark' size={24} color='#8C9178' style={recipeItems.icon} />}
+        {checked && <Ionicons name='checkmark' size={24} color={COLORS.artichoke} style={styles.icon} />}
       </Pressable>
       <TextInput
         value={value}
         onChangeText={text => handleItemChange(index, text)}
         onFocus={() => {
           setCurrentItemIndex(index)
-          closeNav
+          closeNav()
         }}
         autoFocus={currentItemIndex === index ? true : false}
         editable
@@ -30,13 +31,13 @@ export default function recipeItem({ value, closeNav, index, checked, handleChec
           setCurrentItemIndex(index + 1)
           handleAddNewLine(index + 1, index, '')
         }}
-        style={recipeItems.textInput}
+        style={styles.textInput}
       />
     </View>
   )
 }
 
-const recipeItems = StyleSheet.create({
+const styles = StyleSheet.create({
   view: {
     flexDirection: 'row',
     marginBottom: 10
@@ -48,12 +49,12 @@ const recipeItems = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 4,
     borderWidth: 2,
-    borderColor: '#8C9178',
+    borderColor: COLORS.artichoke,
     backgroundColor: 'transparent',
     overflow: 'visible'
   },
   checkboxChecked: {
-    backgroundColor: '#ffffff',
+    backgroundColor: COLORS.white,
   },
   icon: {
     

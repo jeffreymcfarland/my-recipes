@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Alert, Modal, Text, TouchableHighlight, TextInput } from 'react-native';
+import { COLORS } from '../config/colors';
 
 export default function CustomModal({ handleAddRecipe, modalVisible, setModalVisible }) {
   const [value, setValue] = useState('')
@@ -24,17 +25,17 @@ export default function CustomModal({ handleAddRecipe, modalVisible, setModalVis
           />
           <View style={styles.btnView} >
             <TouchableHighlight
-              style={{...styles.modalBtn, backgroundColor: '#F5F5F5'}}
-              underlayColor={'#EBEBEB'}
+              style={{...styles.modalBtn, backgroundColor: COLORS.cultured}}
+              underlayColor={COLORS.platinum}
               onPress={() => {
                 setValue('')
                 setModalVisible(!modalVisible);
               }}>
-              <Text style={{...styles.textStyle, color: '#333333'}}>Cancel</Text>
+              <Text style={{...styles.textStyle, color: COLORS.jet}}>Cancel</Text>
             </TouchableHighlight>
             <TouchableHighlight
               style={styles.modalBtn}
-              underlayColor={'#777B65'}
+              underlayColor={COLORS.xanadu}
               onPress={() => {
                 handleAddRecipe(value)
                 setModalVisible(!modalVisible);
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
   },
   textinput: {
     alignSelf: 'center',
-    borderColor: '#EBEBEB',
+    borderColor: COLORS.jet,
     borderWidth: 2,
     borderRadius: 4,
     height: 40,
@@ -71,11 +72,11 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: '#ffffff',
+    backgroundColor: COLORS.white,
     borderRadius: 20,
     padding: 50,
     alignItems: 'center',
-    shadowColor: '#333333',
+    shadowColor: COLORS.jet,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -85,14 +86,14 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   modalBtn: {
-    backgroundColor: '#8C9178',
+    backgroundColor: COLORS.artichoke,
     borderRadius: 6,
     padding: 10,
     elevation: 2,
     margin: 2.5
   },
   textStyle: {
-    color: '#ffffff',
+    color: COLORS.white,
     fontWeight: '600',
     textAlign: 'center',
     fontSize: 18

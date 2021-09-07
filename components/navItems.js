@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, FlatList, Pressable, Alert } from 'react-native';
+import { COLORS } from '../config/colors';
 
 function Item({ title, recipeTitle, selectRecipe, handleRemoveRecipe }) {
   const [deleteTitle, setDeleteTitle] = useState('')
@@ -28,16 +29,15 @@ function Item({ title, recipeTitle, selectRecipe, handleRemoveRecipe }) {
 
   return (
     <Pressable
-      style={({ pressed }) => [{backgroundColor: pressed ? '#EBEBEB' : '#ffffff'}, styles.touch, title === recipeTitle ? styles.selectedItem : {}, title === deleteTitle ? {backgroundColor: '#B35F56'}: {}]}
+      style={({ pressed }) => [{backgroundColor: pressed ? COLORS.platinum : COLORS.white}, styles.touch, title === recipeTitle ? styles.selectedItem : {}, title === deleteTitle ? {backgroundColor: '#B35F56'}: {}]}
       onPress={() => selectRecipe(title)}
-      // underlayColor={'#EBEBEB'}
       onLongPress={() => {
         changeHighLight(title)
         alert(title)
       }}
     >
       <View style={styles.itemsWrapper}>
-        <Text style={[styles.item, title === deleteTitle ? {color: '#ffffff'} : {}]} numberOfLines={1}>{title}</Text>
+        <Text style={[styles.item, title === deleteTitle ? {color: COLORS.white} : {}]} numberOfLines={1}>{title}</Text>
       </View>
     </Pressable>
   )
@@ -92,6 +92,6 @@ const styles = StyleSheet.create({
     fontWeight: '600'
   },
   selectedItem: {
-    backgroundColor: '#EBEBEB'
+    backgroundColor: COLORS.platinum
   }
 })

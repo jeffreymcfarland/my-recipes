@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
+import { COLORS } from '../config/colors';
 
 export default function RecipeTitle({ title, window }) {
   return (
@@ -11,13 +12,13 @@ export default function RecipeTitle({ title, window }) {
 
 const titleStyles = StyleSheet.create({
   container: {
-    backgroundColor: '#ffffff',
+    backgroundColor: COLORS.white,
     alignItems: 'center',
     justifyContent: 'flex-end',
     paddingBottom: 20
   },
   title: {
-    color: '#8C9178',
+    color: COLORS.artichoke,
     fontSize: 30,
     fontWeight: '500'
   }

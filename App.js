@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState, useRef } from 'react';
-import { Platform, StyleSheet, View, Dimensions, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Text } from 'react-native';
+import { Platform, StyleSheet, View, Dimensions, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Text, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts, Roboto_500Medium } from '@expo-google-fonts/roboto';
 import AppLoading from 'expo-app-loading';
@@ -269,6 +269,7 @@ export default function App() {
 
   const handleRemoveItemLine = (index) => {
     setCurrentItemIndex(index)
+    console.log(index)
     setInputActive(false)
     let items = [...recipeBody]
     items.splice(index, 1)
@@ -333,40 +334,49 @@ export default function App() {
               handleRemoveRecipe={handleRemoveRecipe}
               handleAddRecipe={handleAddRecipe}
             />
-            <View style={styles.recipeAreaContainer}>
-              <RecipeTitle title={recipeTitle} window={window} />
-              <View style={styles.recipeAreaBody}>
-                <KeyboardAvoidingView
-                  behavior='padding'
-                  style={styles.inputAreaContainer}
-                >
-                  <TouchableWithoutFeedback onPress={navOpen ? closeNav : handleExitKeyboard}>
-                    {recipeTitle === 'My Recipes' ?
-                      <HomePage recipes={recipes} selectRecipe={selectRecipe} />
-                      :
-                      <View style={styles.inputAreaInner} ref={inputEl}>
-                        <Text style={styles.ingredientsTitle}>Ingredients</Text>
-                        {recipeBody.map((item, index) =>
-                          <RecipeItem
-                            value={item.item}
-                            closeNav={closeNav}
-                            key={index}
-                            index={index}
-                            checked={item.checked}
-                            handleCheckedItem={handleCheckedItem}
-                            handleItemChange={handleItemChange}
-                            handleAddNewLine={handleAddNewLine}
-                            handleRemoveItemLine={handleRemoveItemLine}
-                            currentItemIndex={currentItemIndex}
-                            setCurrentItemIndex={setCurrentItemIndex}
-                          />
-                        )}
-                      </View>
-                    }
-                  </TouchableWithoutFeedback>
-                </KeyboardAvoidingView>
-              </View>
-            </View>
+            <KeyboardAvoidingView
+              behavior={Platform.OS === "ios" ? "padding" : null}
+              style={styles.inputAreaContainer}
+            >
+              <TouchableWithoutFeedback onPress={navOpen ? closeNav : handleExitKeyboard}>
+                <View style={styles.recipeAreaContainer}>
+                  <RecipeTitle title={recipeTitle} window={window} />
+                  <View style={styles.recipeAreaBody}>
+                      <ScrollView>
+                        <TouchableWithoutFeedback onPress={navOpen ? closeNav : handleExitKeyboard}>
+                          {recipeTitle === 'My Recipes' ?
+                            <HomePage
+                              recipes={recipes}
+                              selectRecipe={selectRecipe}
+                              navOpen={navOpen}
+                              closeNav={closeNav}
+                            />
+                            :
+                            <View style={styles.inputAreaInner} ref={inputEl}>
+                              <Text style={styles.ingredientsTitle}>Ingredients</Text>
+                              {recipeBody.map((item, index) =>
+                                <RecipeItem
+                                  value={item.item}
+                                  closeNav={closeNav}
+                                  key={index}
+                                  index={index}
+                                  checked={item.checked}
+                                  handleCheckedItem={handleCheckedItem}
+                                  handleItemChange={handleItemChange}
+                                  handleAddNewLine={handleAddNewLine}
+                                  handleRemoveItemLine={handleRemoveItemLine}
+                                  currentItemIndex={currentItemIndex}
+                                  setCurrentItemIndex={setCurrentItemIndex}
+                                />
+                              )}
+                            </View>
+                          }
+                        </TouchableWithoutFeedback>
+                      </ScrollView>
+                  </View>
+                </View>
+              </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
             <StatusBar style="auto" />
           </View>
         </TouchableWithoutFeedback>
@@ -386,10 +396,10 @@ const styles = StyleSheet.create({
     flex: 1
   },
   recipeAreaContainer: {
-    flex: 1
+    justifyContent: 'flex-end',
   },
   recipeAreaBody: {
-    height: (window.height / 6) * 5
+    // height: (window.height / 6) * 5
   },
   mainViewContainer: {
     flex: 1,
