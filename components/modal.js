@@ -4,6 +4,7 @@ import { COLORS } from '../config/colors';
 
 export default function CustomModal({ handleAddRecipe, modalVisible, setModalVisible }) {
   const [value, setValue] = useState('')
+  const [emptyInput, setEmptyInput] = useState(false)
 
   return (
     <Modal
@@ -18,11 +19,15 @@ export default function CustomModal({ handleAddRecipe, modalVisible, setModalVis
           <Text style={styles.modalText}>Enter Recipe Title</Text>
           <TextInput
             value={value}
-            onChangeText={text => setValue(text)}
+            onChangeText={text => {
+              setEmptyInput(false)
+              setValue(text)
+            }}
             editable
-            placeholder='Tikka Masala'
-            style={styles.textinput}
+            placeholder={emptyInput ? '' : 'Tikka Masala'}
+            style={[styles.textinput, emptyInput ? styles.textInputEmpty : {}]}
           />
+          {emptyInput ? <Text style={styles.errorMessage}>Field is required.</Text> : <></>}
           <View style={styles.btnView} >
             <TouchableHighlight
               style={{...styles.modalBtn, backgroundColor: COLORS.cultured}}
@@ -30,15 +35,21 @@ export default function CustomModal({ handleAddRecipe, modalVisible, setModalVis
               onPress={() => {
                 setValue('')
                 setModalVisible(!modalVisible);
+                setEmptyInput(false)
               }}>
               <Text style={{...styles.textStyle, color: COLORS.jet}}>Cancel</Text>
             </TouchableHighlight>
             <TouchableHighlight
               style={styles.modalBtn}
-              underlayColor={COLORS.xanadu}
+              underlayColor={COLORS.unitedNations}
               onPress={() => {
-                handleAddRecipe(value)
-                setModalVisible(!modalVisible);
+                if (value !== '') {
+                  setEmptyInput(false)
+                  handleAddRecipe(value)
+                  setModalVisible(!modalVisible);
+                } else {
+                  setEmptyInput(true)
+                }
               }}>
               <Text style={styles.textStyle}>Submit</Text>
             </TouchableHighlight>
@@ -59,11 +70,16 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 4,
     height: 40,
-    width: 140,
-    marginBottom: 15,
+    width: 200,
+    marginBottom: 20,
     paddingLeft: 10,
     fontSize: 18,
     fontWeight: '600'
+  },
+  textInputEmpty: {
+    borderColor: COLORS.redwood,
+    fontWeight: '700',
+    marginBottom: 6
   },
   centeredView: {
     flex: 1,
@@ -86,7 +102,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   modalBtn: {
-    backgroundColor: COLORS.artichoke,
+    backgroundColor: COLORS.littleBoy,
     borderRadius: 6,
     padding: 10,
     elevation: 2,
@@ -99,9 +115,15 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   modalText: {
-    marginBottom: 15,
+    marginBottom: 20,
     fontSize: 18,
     textAlign: 'center',
     fontWeight: '600'
   },
+  errorMessage: {
+    color: COLORS.redwood,
+    alignSelf: 'flex-start',
+    marginBottom: 5,
+    lineHeight: 15
+  }
 })

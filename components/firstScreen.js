@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, TouchableWithoutFeedback, Text, TouchableHighlight } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { COLORS } from '../config/colors';
 
 export default function firstScreen({ window, handleExitKeyboard, setUserName, setUserFavFood, setCollectionName, getUserData }) {
   const [user, onChangeUser] = useState('');
@@ -55,9 +56,9 @@ export default function firstScreen({ window, handleExitKeyboard, setUserName, s
           <TouchableHighlight
             style={styles.submitBtn}
             onPress={setUserData}
-            underlayColor={'#EBEBEB'}
+            underlayColor={COLORS.unitedNations}
           >
-            <Text style={{alignSelf: 'center', fontSize: 20}}>Submit</Text>
+            <Text style={styles.submitText}>Submit</Text>
           </TouchableHighlight>
         </View>
       </View>
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: '600',
     paddingTop: 120,
-    color: '#333333'
+    color: COLORS.unitedNations
   },
   inputView: {
     flex: 1,
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
   },
   input: {
     alignSelf: 'center',
-    borderColor: '#333333',
+    borderColor: COLORS.salmon,
     borderWidth: 2,
     borderRadius: 4,
     height: 45,
@@ -99,15 +100,20 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 20,
     fontWeight: '600',
-    color: '#333333'
+    color: COLORS.salmon
   },
   submitBtn: {
     width: 100,
     height: 40,
     alignSelf: 'center',
     justifyContent: 'center',
-    backgroundColor: '#F5F5F5',
+    backgroundColor: COLORS.littleBoy,
     borderRadius: 4,
     marginTop: 10
+  },
+  submitText: {
+    alignSelf: 'center',
+    fontSize: 20,
+    color: COLORS.white
   }
 })

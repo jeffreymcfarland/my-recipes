@@ -12,14 +12,14 @@ export default function handleNavItems({ handleAddRecipe, selectRecipe }) {
       <CustomModal handleAddRecipe={handleAddRecipe} modalVisible={modalVisible} setModalVisible={setModalVisible} />
       <Pressable
         onPress={() => selectRecipe('My Recipes')}
-        style={({ pressed }) => [styles.pressableHome, {backgroundColor: pressed ? COLORS.xanadu : COLORS.artichoke}]}
+        style={({ pressed }) => [styles.pressableHome, {backgroundColor: pressed ? COLORS.unitedNations : COLORS.littleBoy}]}
       >
         <Text style={styles.home}>Home</Text>
       </Pressable>
       <Pressable
         onPress={() => setModalVisible(true)}
       >
-        <Ionicons name={'ios-add'} size={40} color={COLORS.artichoke} style={styles.addIcon} />
+        <Ionicons name={'ios-add'} size={40} color={COLORS.littleBoy} style={styles.addIcon} />
       </Pressable>
     </View>
   )
@@ -37,7 +37,13 @@ const styles = StyleSheet.create({
   pressableHome: {
     padding: 10,
     width: '75%',
-    borderRadius: 5
+    borderRadius: 5,
+    shadowColor: COLORS.jet,
+    shadowOffset: {
+      width: 2,
+      height: 2
+    },
+    shadowOpacity: 0.4
   },
   home: {
     fontSize: 18,

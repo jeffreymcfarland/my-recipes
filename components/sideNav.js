@@ -3,8 +3,9 @@ import { StyleSheet, View, Image, TouchableWithoutFeedback } from 'react-native'
 import NavItems from './navItems';
 import HandleNavItems from './handleNavItems';
 import { COLORS } from '../config/colors';
+import { Ionicons } from '@expo/vector-icons';
 
-export default function SideNav({ toggleNav, navOpen, iconRotate, navContainerSize, iconPosition, window, recipes, recipeTitle, selectRecipe, handleRemoveRecipe, handleAddRecipe }) {
+export default function SideNav({ toggleNav, navOpen, navContainerSize, iconPosition, window, recipes, recipeTitle, selectRecipe, handleRemoveRecipe, handleAddRecipe }) {
 
   return (
     <>
@@ -31,14 +32,7 @@ export default function SideNav({ toggleNav, navOpen, iconRotate, navContainerSi
             }]}
           >
             <View style={openIcon.icon}>
-              <Image
-                source={require('../assets/chevron.png')}
-                style={[openIcon.chevron, {
-                  transform: [
-                    {rotate: iconRotate}
-                  ]
-                }]}
-              />
+              <Ionicons name={navOpen ? 'chevron-back-circle' : 'chevron-forward-circle'} style={openIcon.chevron} size={40} color={COLORS.salmon} />
             </View>
           </View>
         </View>
@@ -49,13 +43,13 @@ export default function SideNav({ toggleNav, navOpen, iconRotate, navContainerSi
 
 const sideNav = StyleSheet.create({
   container: {
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.seashell,
     alignItems: 'flex-start',
     height: '100%',
     zIndex: 2,
     position: 'absolute',
-    borderRightWidth: 2,
-    borderColor: COLORS.jet,
+    borderRightWidth: 3,
+    borderColor: COLORS.salmon,
     shadowColor: COLORS.jet,
     shadowOffset: {
     width: 4,
@@ -73,9 +67,8 @@ const openIcon = StyleSheet.create({
     alignItems: 'center'
   },
   icon: {
-    width: 35,
-    height: 35,
-    backgroundColor: 'transparent',
+    backgroundColor: COLORS.white,
+    borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: COLORS.jet,
@@ -86,8 +79,8 @@ const openIcon = StyleSheet.create({
     shadowOpacity: 0.2
   },
   chevron: {
-    width: 35,
-    height: 35
+  borderRadius: 20,
+  margin: -6
   },
   button: {
     backgroundColor: 'transparent',

@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Platform, StyleSheet, View, Dimensions, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Text, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts, Roboto_500Medium } from '@expo-google-fonts/roboto';
@@ -9,7 +9,7 @@ require('firebase/firestore');
 import apiKeys from './config/keys';
 import SideNav from './components/sideNav';
 import RecipeTitle from './components/recipeTitle';
-import RecipeItem from './components/recipeItem';
+import RecipeHandler from './components/recipeHandler';
 import FirstScreen from './components/firstScreen';
 import HomePage from './components/homePage';
 
@@ -47,54 +47,8 @@ const dummyData = [
         item: 'veggies',
         checked: false
       }
-    ]
-  },
-  {
-    'title': 'Brussel Tacos',
-    'body': [
-      {
-        item: '2 cans tomatoes',
-        checked: false
-      },
-      {
-        item: 'spices',
-        checked: false
-      },
-      {
-        item: 'basmati rice',
-        checked: false
-      },
-      {
-        item: 'yogurt',
-        checked: false
-      }
-    ]
-  },
-  {
-    'title': 'Kale Caesar',
-    'body': [
-      {
-        item: '2 cans tomatoes',
-        checked: false
-      },
-      {
-        item: 'spices',
-        checked: false
-      },
-      {
-        item: 'basmati rice',
-        checked: false
-      }
-    ]
-  },
-  {
-    'title': 'Gorgonzola Red Sauce Pasta',
-    'body': [
-      {
-        item: '2 cans tomatoes',
-        checked: false
-      }
-    ]
+    ],
+    'directions': ''
   }
 ]
 
@@ -105,14 +59,12 @@ export default function App() {
   const [collectionName, setCollectionName] = useState('')
   const [recipes, setRecipes] = useState([])
   const [navOpen, setNavOpen] = useState(false)
-  const [iconRotate, setIconRotate] = useState('0deg')
   const [navContainerSize, setNavContainerSize] = useState(16)
   const [iconPosition, setIconPosition] = useState(8)
   const [recipeTitle, setRecipeTitle] = useState('My Recipes')
   const [recipeBody, setRecipeBody] = useState([])
+  const [recipeDirections, setRecipeDirections] = useState('')
   const [inputActive, setInputActive] = useState(true)
-  const [currentItemIndex, setCurrentItemIndex] = useState()
-  const inputEl = useRef(null);
   let [fontsLoaded] = useFonts({
     Roboto_500Medium,
   });
@@ -156,11 +108,6 @@ export default function App() {
   useEffect(() => {
     if (navOpen) {Keyboard.dismiss()}
 
-    if (!inputActive && Platform.OS === 'ios') {
-      inputEl.current._children[currentItemIndex]._children[1].focus()
-      setInputActive(true)
-    }
-
     // let keys = ['@userName', '@userFavFood', '@userCollectionName'];
     // AsyncStorage.multiRemove(keys, (err) => {
     //   // keys k1 & k2 removed, if they existed
@@ -169,14 +116,12 @@ export default function App() {
   });
 
   const openNav = () => {
-    setIconRotate('180deg')
     setNavContainerSize(2)
     setIconPosition(1)
     setNavOpen(true)
   }
 
   const closeNav = () => {
-    setIconRotate('0deg')
     setNavContainerSize(16)
     setIconPosition(8)
     setNavOpen(false)
@@ -197,6 +142,11 @@ export default function App() {
     recipes.map(recipe => {
       if (recipe.title === title) {
         setRecipeBody(recipe.body)
+        if (!recipe.directions) {
+          setRecipeDirections('')
+        } else {
+          setRecipeDirections(recipe.directions)
+        }
       }
     })
 
@@ -208,6 +158,16 @@ export default function App() {
     const recipeIndex = allRecipes.findIndex(obj => obj.title === recipeTitle)
     let recipe = {...allRecipes[recipeIndex]}
     recipe.body = items
+    allRecipes[recipeIndex] = recipe
+    allRecipes.map(eachRecipe => dbh.collection(collectionName).doc(eachRecipe.title).set(eachRecipe))
+    setRecipes(allRecipes)
+  }
+
+  const setAllRecipeDirectionsData = (text) => {
+    let allRecipes = [...recipes]
+    const recipeIndex = allRecipes.findIndex(obj => obj.title === recipeTitle)
+    let recipe = {...allRecipes[recipeIndex]}
+    recipe.directions = text
     allRecipes[recipeIndex] = recipe
     allRecipes.map(eachRecipe => dbh.collection(collectionName).doc(eachRecipe.title).set(eachRecipe))
     setRecipes(allRecipes)
@@ -268,8 +228,6 @@ export default function App() {
   }
 
   const handleRemoveItemLine = (index) => {
-    setCurrentItemIndex(index)
-    console.log(index)
     setInputActive(false)
     let items = [...recipeBody]
     items.splice(index, 1)
@@ -286,6 +244,12 @@ export default function App() {
     setRecipeBody(items)
 
     setAllRecipeData(items)
+  }
+
+  const handleSetRecipeDirections = (text) => {
+    setRecipeDirections(text)
+
+    setAllRecipeDirectionsData(text)
   }
 
   const handleExitKeyboard = () => {
@@ -324,7 +288,6 @@ export default function App() {
             <SideNav
               toggleNav={toggleNav}
               navOpen={navOpen}
-              iconRotate={iconRotate}
               navContainerSize={navContainerSize}
               iconPosition={iconPosition}
               window={window}
@@ -342,37 +305,29 @@ export default function App() {
                 <View style={styles.recipeAreaContainer}>
                   <RecipeTitle title={recipeTitle} window={window} />
                   <View style={styles.recipeAreaBody}>
-                      <ScrollView>
-                        <TouchableWithoutFeedback onPress={navOpen ? closeNav : handleExitKeyboard}>
-                          {recipeTitle === 'My Recipes' ?
-                            <HomePage
-                              recipes={recipes}
-                              selectRecipe={selectRecipe}
-                              navOpen={navOpen}
-                              closeNav={closeNav}
-                            />
-                            :
-                            <View style={styles.inputAreaInner} ref={inputEl}>
-                              <Text style={styles.ingredientsTitle}>Ingredients</Text>
-                              {recipeBody.map((item, index) =>
-                                <RecipeItem
-                                  value={item.item}
-                                  closeNav={closeNav}
-                                  key={index}
-                                  index={index}
-                                  checked={item.checked}
-                                  handleCheckedItem={handleCheckedItem}
-                                  handleItemChange={handleItemChange}
-                                  handleAddNewLine={handleAddNewLine}
-                                  handleRemoveItemLine={handleRemoveItemLine}
-                                  currentItemIndex={currentItemIndex}
-                                  setCurrentItemIndex={setCurrentItemIndex}
-                                />
-                              )}
-                            </View>
-                          }
-                        </TouchableWithoutFeedback>
-                      </ScrollView>
+                    <TouchableWithoutFeedback onPress={navOpen ? closeNav : handleExitKeyboard}>
+                      {recipeTitle === 'My Recipes' ?
+                        <HomePage
+                          recipes={recipes}
+                          selectRecipe={selectRecipe}
+                          navOpen={navOpen}
+                          closeNav={closeNav}
+                        />
+                        :
+                        <View style={styles.inputAreaInner}>
+                          <RecipeHandler
+                            recipes={recipeBody}
+                            closeNav={closeNav}
+                            handleCheckedItem={handleCheckedItem}
+                            handleItemChange={handleItemChange}
+                            handleAddNewLine={handleAddNewLine}
+                            handleRemoveItemLine={handleRemoveItemLine}
+                            recipeDirections={recipeDirections}
+                            handleSetRecipeDirections={handleSetRecipeDirections}
+                          />
+                        </View>
+                      }
+                    </TouchableWithoutFeedback>
                   </View>
                 </View>
               </TouchableWithoutFeedback>
@@ -397,9 +352,10 @@ const styles = StyleSheet.create({
   },
   recipeAreaContainer: {
     justifyContent: 'flex-end',
+    height: '100%'
   },
   recipeAreaBody: {
-    // height: (window.height / 6) * 5
+    flex: 1
   },
   mainViewContainer: {
     flex: 1,
@@ -408,9 +364,5 @@ const styles = StyleSheet.create({
   mainViewWrapper: {
     height: window.height,
     zIndex: 0
-  },
-  ingredientsTitle: {
-    fontSize: 24,
-    paddingBottom: 18
   }
 })

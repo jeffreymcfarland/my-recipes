@@ -5,5 +5,10 @@ export const COLORS = {
   platinum: '#EBEBEB',
   artichoke: '#8C9178',
   xanadu: '#777B65',
-  redwood: '#B35F56'
+  redwood: '#B35F56',
+  salmon: '#F1A37E',
+  seashell: '#FDF2ED',
+  champagne: '#FBE4DA',
+  littleBoy: '#85A3D6',
+  unitedNations: '#668BCC'
 } 

@@ -1,9 +1,28 @@
-import React from 'react';
-import { Pressable, View, TextInput, StyleSheet } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Pressable, TextInput, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../config/colors';
 
-export default function recipeItem({ value, closeNav, index, checked, handleCheckedItem, handleItemChange, handleAddNewLine, handleRemoveItemLine, currentItemIndex, setCurrentItemIndex }) {
+export default function RecipeItem({
+  value,
+  closeNav,
+  index,
+  checked,
+  handleCheckedItem,
+  handleItemChange,
+  handleAddNewLine,
+  handleRemoveItemLine,
+  currentIndex,
+  setCurrentIndex
+}) {
+  const inputEl = useRef()
+
+  useEffect(() => {
+    if (index === currentIndex) {
+      inputEl.current.focus()
+    }
+  })
+
   return (
     <View style={styles.view}>
       <Pressable
@@ -13,22 +32,26 @@ export default function recipeItem({ value, closeNav, index, checked, handleChec
         {checked && <Ionicons name='checkmark' size={24} color={COLORS.artichoke} style={styles.icon} />}
       </Pressable>
       <TextInput
+        ref={inputEl}
         value={value}
         onChangeText={text => handleItemChange(index, text)}
         onFocus={() => {
-          setCurrentItemIndex(index)
+          if (index !== currentIndex) {
+            setCurrentIndex(index)
+          }
           closeNav()
         }}
-        autoFocus={currentItemIndex === index ? true : false}
+        autoFocus={currentIndex === index ? true : false}
         editable
         blurOnSubmit={false}
         onKeyPress={data => {
           if (data.nativeEvent.key === 'Backspace' && value === '' && index !== 0) {
             handleRemoveItemLine(index)
+            setCurrentIndex(index - 1)
           }
         }}
         onSubmitEditing={() => {
-          setCurrentItemIndex(index + 1)
+          setCurrentIndex(index + 1)
           handleAddNewLine(index + 1, index, '')
         }}
         style={styles.textInput}

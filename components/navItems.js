@@ -29,7 +29,7 @@ function Item({ title, recipeTitle, selectRecipe, handleRemoveRecipe }) {
 
   return (
     <Pressable
-      style={({ pressed }) => [{backgroundColor: pressed ? COLORS.platinum : COLORS.white}, styles.touch, title === recipeTitle ? styles.selectedItem : {}, title === deleteTitle ? {backgroundColor: '#B35F56'}: {}]}
+      style={({ pressed }) => [styles.pressable, {backgroundColor: pressed ? COLORS.champagne : COLORS.seashell}, styles.touch, title === recipeTitle ? styles.selectedItem : {}, title === deleteTitle ? {backgroundColor: COLORS.redwood}: {}]}
       onPress={() => selectRecipe(title)}
       onLongPress={() => {
         changeHighLight(title)
@@ -37,7 +37,7 @@ function Item({ title, recipeTitle, selectRecipe, handleRemoveRecipe }) {
       }}
     >
       <View style={styles.itemsWrapper}>
-        <Text style={[styles.item, title === deleteTitle ? {color: COLORS.white} : {}]} numberOfLines={1}>{title}</Text>
+        <Text style={[styles.text, title === deleteTitle ? {color: COLORS.white} : {}]} numberOfLines={1}>{title}</Text>
       </View>
     </Pressable>
   )
@@ -69,14 +69,20 @@ const styles = StyleSheet.create({
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 10,
     zIndex: 3
+  },
+  pressable: {
+    margin: 5
   },
   list: {
     width: '100%',
     zIndex: 4
   },
   touch: {
-    width: '100%',
+    width: '95%',
+    alignSelf: 'center',
+    borderRadius: 5
   },
   itemsWrapper: {
     width: '100%',
@@ -85,13 +91,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     zIndex: 5
   },
-  item: {
+  text: {
     marginLeft: 20,
     height: 'auto',
     fontSize: 18,
     fontWeight: '600'
   },
   selectedItem: {
-    backgroundColor: COLORS.platinum
+    backgroundColor: COLORS.champagne
   }
 })

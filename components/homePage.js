@@ -5,7 +5,7 @@ import { COLORS } from '../config/colors';
 const Item = ({ title, selectRecipe }) => (
   <Pressable
     onPress={() => selectRecipe(title)}
-    style={({ pressed }) => [{backgroundColor: pressed ? COLORS.xanadu : COLORS.artichoke}, styles.pressable]}
+    style={({ pressed }) => [{backgroundColor: pressed ? COLORS.unitedNations : COLORS.littleBoy}, styles.pressable]}
   >
     <View style={styles.itemsWrapper}>
       <Text style={styles.item} numberOfLines={1}>{title}</Text>
@@ -30,13 +30,8 @@ export default function HomePage({ recipes, selectRecipe, navOpen, closeNav }) {
 
 const styles = StyleSheet.create({
   view: {
-    alignItems: 'center'
-  },
-  title: {
-    alignSelf: 'center',
-    color: COLORS.jet,
-    fontSize: 30,
-    fontWeight: '600'
+    alignItems: 'center',
+    padding: 20
   },
   itemsWrapper: {
     padding: 18
