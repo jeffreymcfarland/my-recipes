@@ -65,6 +65,7 @@ export default function App() {
   const [recipeBody, setRecipeBody] = useState([])
   const [recipeDirections, setRecipeDirections] = useState('')
   const [inputActive, setInputActive] = useState(true)
+  const [currentIndex, setCurrentIndex] = useState()
   let [fontsLoaded] = useFonts({
     Roboto_500Medium,
   });
@@ -133,6 +134,7 @@ export default function App() {
     } else {
       closeNav()
     }
+    setCurrentIndex(-1)
   }
 
   const selectRecipe = (title) => {
@@ -324,6 +326,8 @@ export default function App() {
                             handleRemoveItemLine={handleRemoveItemLine}
                             recipeDirections={recipeDirections}
                             handleSetRecipeDirections={handleSetRecipeDirections}
+                            currentIndex={currentIndex}
+                            setCurrentIndex={setCurrentIndex}
                           />
                         </View>
                       }

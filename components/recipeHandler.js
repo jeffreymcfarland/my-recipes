@@ -12,14 +12,15 @@ export default function recipeHandler({
   handleAddNewLine,
   handleRemoveItemLine,
   recipeDirections,
-  handleSetRecipeDirections
+  handleSetRecipeDirections,
+  currentIndex,
+  setCurrentIndex
 }) {
   const [tabs, setTabs] = useState([
     'Ingredients',
     'Directions'
   ])
   const [selectedTab, setSelectedTab] = useState(tabs[0])
-  const [currentIndex, setCurrentIndex] = useState()
 
   const renderItem = ({ item, index }) => (
     <RecipeItem

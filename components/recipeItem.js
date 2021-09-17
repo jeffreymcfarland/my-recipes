@@ -39,7 +39,7 @@ export default function RecipeItem({
           if (index !== currentIndex) {
             setCurrentIndex(index)
           }
-          closeNav()
+          // closeNav()
         }}
         autoFocus={currentIndex === index ? true : false}
         editable

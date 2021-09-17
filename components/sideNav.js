@@ -9,7 +9,7 @@ export default function SideNav({ toggleNav, navOpen, navContainerSize, iconPosi
 
   return (
     <>
-      <TouchableWithoutFeedback style={openIcon.button} onPress={toggleNav}>
+      <TouchableWithoutFeedback style={openIcon.button} onPress={toggleNav} hitSlop={navOpen ? {right: 200} : {}}>
         <View 
           style={[sideNav.container, {
             width: window.width / navContainerSize
@@ -84,6 +84,7 @@ const openIcon = StyleSheet.create({
   },
   button: {
     backgroundColor: 'transparent',
-    width: '100%'
+    width: window.width,
+    zIndex: 20
   }
 })
