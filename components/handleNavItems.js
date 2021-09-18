@@ -8,20 +8,22 @@ export default function handleNavItems({ handleAddRecipe, selectRecipe }) {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
-    <View style={styles.view}>
-      <CustomModal handleAddRecipe={handleAddRecipe} modalVisible={modalVisible} setModalVisible={setModalVisible} />
-      <Pressable
-        onPress={() => selectRecipe('My Recipes')}
-        style={({ pressed }) => [styles.pressableHome, {backgroundColor: pressed ? COLORS.unitedNations : COLORS.littleBoy}]}
-      >
-        <Text style={styles.home}>Home</Text>
-      </Pressable>
-      <Pressable
-        onPress={() => setModalVisible(true)}
-      >
-        <Ionicons name={'ios-add'} size={40} color={COLORS.littleBoy} style={styles.addIcon} />
-      </Pressable>
-    </View>
+    <>
+      <View style={styles.view}>
+        <CustomModal handleAddRecipe={handleAddRecipe} modalVisible={modalVisible} setModalVisible={setModalVisible} />
+        <Pressable
+          onPress={() => selectRecipe('My Recipes')}
+          style={({ pressed }) => [styles.pressableHome, {backgroundColor: pressed ? COLORS.earthYellow : COLORS.burlywood}]}
+        >
+          <Text style={styles.home}>Home</Text>
+        </Pressable>
+        <Pressable
+          onPress={() => setModalVisible(true)}
+        >
+          <Ionicons name={'ios-add'} size={40} color={COLORS.burlywood} style={styles.addIcon} />
+        </Pressable>
+      </View>
+    </>
   )
 }
 

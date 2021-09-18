@@ -1,11 +1,12 @@
 import React from 'react';
 import { StyleSheet, View, FlatList, Text, Pressable, TouchableWithoutFeedback } from 'react-native';
 import { COLORS } from '../config/colors';
+import HandleGroceries from './handleGroceries';
 
 const Item = ({ title, selectRecipe }) => (
   <Pressable
     onPress={() => selectRecipe(title)}
-    style={({ pressed }) => [{backgroundColor: pressed ? COLORS.unitedNations : COLORS.littleBoy}, styles.pressable]}
+    style={({ pressed }) => [{backgroundColor: pressed ? COLORS.earthYellow : COLORS.burlywood}, styles.pressable]}
   >
     <View style={styles.itemsWrapper}>
       <Text style={styles.item} numberOfLines={1}>{title}</Text>
@@ -13,18 +14,21 @@ const Item = ({ title, selectRecipe }) => (
   </Pressable>
 )
 
-export default function HomePage({ recipes, selectRecipe, navOpen, closeNav }) {
+export default function HomePage({ recipes, selectRecipe, toggleNav, handleAddRecipe }) { 
   return (
-    <TouchableWithoutFeedback onPress={navOpen ? closeNav : console.log('nav already closed')}>
-      <View style={styles.view}>
-        <FlatList
-          data={recipes}
-          renderItem={({ item }) => <Item title={item.title} selectRecipe={selectRecipe} />}
-          keyExtractor={(item, index) => index.toString()}
-          scrollEnabled={false}
-        />
-      </View>
-    </TouchableWithoutFeedback>
+    <>
+      <HandleGroceries recipes={recipes} handleAddRecipe={handleAddRecipe}/>
+      <TouchableWithoutFeedback onPress={toggleNav}>
+        <View style={styles.view}>
+          <FlatList
+            data={recipes}
+            renderItem={({ item }) => <Item title={item.title} selectRecipe={selectRecipe} />}
+            keyExtractor={(item, index) => index.toString()}
+            scrollEnabled={false}
+          />
+        </View>
+      </TouchableWithoutFeedback>
+    </>
   )
 }
 
@@ -43,6 +47,6 @@ const styles = StyleSheet.create({
   },
   pressable: {
     borderRadius: 5,
-    margin: 12
+    margin: 8
   }
 })

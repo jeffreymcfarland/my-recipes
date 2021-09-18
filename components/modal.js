@@ -13,7 +13,8 @@ export default function CustomModal({ handleAddRecipe, modalVisible, setModalVis
       visible={modalVisible}
       onRequestClose={() => {
         Alert.alert('Modal has been closed.');
-      }}>
+      }}
+    >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <Text style={styles.modalText}>Enter Recipe Title</Text>
@@ -41,7 +42,7 @@ export default function CustomModal({ handleAddRecipe, modalVisible, setModalVis
             </TouchableHighlight>
             <TouchableHighlight
               style={styles.modalBtn}
-              underlayColor={COLORS.unitedNations}
+              underlayColor={COLORS.earthYellow}
               onPress={() => {
                 if (value !== '') {
                   setEmptyInput(false)
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
   textInputEmpty: {
     borderColor: COLORS.redwood,
     fontWeight: '700',
-    marginBottom: 6
+    marginBottom: 3.5
   },
   centeredView: {
     flex: 1,
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   modalBtn: {
-    backgroundColor: COLORS.littleBoy,
+    backgroundColor: COLORS.burlywood,
     borderRadius: 6,
     padding: 10,
     elevation: 2,
@@ -124,6 +125,6 @@ const styles = StyleSheet.create({
     color: COLORS.redwood,
     alignSelf: 'flex-start',
     marginBottom: 5,
-    lineHeight: 15
+    lineHeight: 14
   }
 })

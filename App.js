@@ -312,8 +312,8 @@ export default function App() {
                         <HomePage
                           recipes={recipes}
                           selectRecipe={selectRecipe}
-                          navOpen={navOpen}
-                          closeNav={closeNav}
+                          toggleNav={toggleNav}
+                          handleAddRecipe={handleAddRecipe}
                         />
                         :
                         <View style={styles.inputAreaInner}>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { FlatList } from 'react-native';
 import Directions from './directions';
 import RecipeTabs from './recipeTabs';
@@ -37,10 +37,6 @@ export default function recipeHandler({
       setCurrentIndex={setCurrentIndex}
     />
   );
-
-  useEffect(() => {
-    
-  })
 
   return (
     <>

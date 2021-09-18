@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, FlatList, Pressable, Alert } from 'react-native';
 import { COLORS } from '../config/colors';
+import HandleGroceries from './handleGroceries';
 
 function Item({ title, recipeTitle, selectRecipe, handleRemoveRecipe }) {
   const [deleteTitle, setDeleteTitle] = useState('')
@@ -43,7 +44,7 @@ function Item({ title, recipeTitle, selectRecipe, handleRemoveRecipe }) {
   )
 }
 
-export default function SideNav({ navOpen, recipes, recipeTitle, selectRecipe, handleRemoveRecipe }) {
+export default function SideNav({ navOpen, recipes, recipeTitle, selectRecipe, handleRemoveRecipe, handleAddRecipe }) {
 
   return(
     <>
@@ -54,6 +55,7 @@ export default function SideNav({ navOpen, recipes, recipeTitle, selectRecipe, h
           renderItem={({ item }) => <Item title={item.title} recipeTitle={recipeTitle} selectRecipe={selectRecipe} handleRemoveRecipe={handleRemoveRecipe} />}
           keyExtractor={(item, index) => index.toString()}
           style={styles.list}
+          ListFooterComponent={<HandleGroceries recipes={recipes} handleAddRecipe={handleAddRecipe}/>}
         />
       </View>
       :
@@ -95,7 +97,8 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     height: 'auto',
     fontSize: 18,
-    fontWeight: '600'
+    fontWeight: '700',
+    color: COLORS.salmon
   },
   selectedItem: {
     backgroundColor: COLORS.champagne

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, View, TouchableWithoutFeedback } from 'react-native';
 import NavItems from './navItems';
 import HandleNavItems from './handleNavItems';
 import { COLORS } from '../config/colors';
@@ -9,9 +9,9 @@ export default function SideNav({ toggleNav, navOpen, navContainerSize, iconPosi
 
   return (
     <>
-      <TouchableWithoutFeedback style={openIcon.button} onPress={toggleNav} hitSlop={navOpen ? {right: 200} : {}}>
+      <TouchableWithoutFeedback style={styles.navTouchable} onPress={toggleNav} hitSlop={navOpen ? {right: 200} : {}}>
         <View 
-          style={[sideNav.container, {
+          style={[styles.navContainer, {
             width: window.width / navContainerSize
           }]}
         >
@@ -25,14 +25,21 @@ export default function SideNav({ toggleNav, navOpen, navContainerSize, iconPosi
             :
             <></>
           }
-          <NavItems navOpen={navOpen} recipes={recipes} recipeTitle={recipeTitle} selectRecipe={selectRecipe} handleRemoveRecipe={handleRemoveRecipe} />
+          <NavItems
+            navOpen={navOpen}
+            recipes={recipes}
+            recipeTitle={recipeTitle}
+            selectRecipe={selectRecipe}
+            handleRemoveRecipe={handleRemoveRecipe}
+            handleAddRecipe={handleAddRecipe}
+          />
           <View
-            style={[openIcon.container, {
+            style={[styles.iconContainer, {
               width: window.width / iconPosition
             }]}
           >
-            <View style={openIcon.icon}>
-              <Ionicons name={navOpen ? 'chevron-back-circle' : 'chevron-forward-circle'} style={openIcon.chevron} size={40} color={COLORS.salmon} />
+            <View style={styles.iconView}>
+              <Ionicons name={navOpen ? 'chevron-back-circle' : 'chevron-forward-circle'} style={styles.chevron} size={40} color={COLORS.salmon} />
             </View>
           </View>
         </View>
@@ -41,8 +48,8 @@ export default function SideNav({ toggleNav, navOpen, navContainerSize, iconPosi
   )
 }
 
-const sideNav = StyleSheet.create({
-  container: {
+const styles = StyleSheet.create({
+  navContainer: {
     backgroundColor: COLORS.seashell,
     alignItems: 'flex-start',
     height: '100%',
@@ -56,17 +63,14 @@ const sideNav = StyleSheet.create({
     height: 0
     },
     shadowOpacity: 0.2
-  }
-})
-
-const openIcon = StyleSheet.create({
-  container: {
+  },
+  iconContainer: {
     position: 'absolute',
     zIndex: 6,
     top: '50%',
     alignItems: 'center'
   },
-  icon: {
+  iconView: {
     backgroundColor: COLORS.white,
     borderRadius: 50,
     justifyContent: 'center',
@@ -82,7 +86,7 @@ const openIcon = StyleSheet.create({
   borderRadius: 20,
   margin: -6
   },
-  button: {
+  navTouchable: {
     backgroundColor: 'transparent',
     width: window.width,
     zIndex: 20
