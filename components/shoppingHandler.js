@@ -3,16 +3,16 @@ import { Pressable, Text, StyleSheet } from 'react-native';
 import { COLORS } from '../config/colors';
 import GroceriesModal from './groceriesModal';
 
-export default function HandleGroceries({ recipes, handleAddRecipe }) {
+export default function ShoppingHandler({ recipes, handleAddRecipe }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedRecipes, setSelectedRecipes] = useState([])
 
   const handleGroceryList = () => {
     setModalVisible(true)
-    makeList()
+    makeSelectedList()
   }
 
-  const makeList = () => {
+  const makeSelectedList = () => {
     let recipeArray = [...selectedRecipes]
     recipes.map(recipes => {
       recipeArray.push({
@@ -21,7 +21,28 @@ export default function HandleGroceries({ recipes, handleAddRecipe }) {
       })
     })
     setSelectedRecipes(recipeArray)
-    console.log(recipeArray)
+  }
+
+  const makeShoppingList = (selected) => {
+    let listArray = []
+    selected.map(recipe => {
+      if (recipe.selected) {
+        listArray.push(recipe.title)
+      }
+    })
+
+    let listBody = []
+    recipes.map(recipe => {
+      listArray.map(title => {
+        if (recipe.title === title) {
+          recipe.body.map(item => {
+            listBody.push(item)
+          })
+        }
+      })
+    })
+
+    handleAddRecipe('Shopping List', listBody)
   }
 
   return (
@@ -33,9 +54,10 @@ export default function HandleGroceries({ recipes, handleAddRecipe }) {
         selectedRecipes={selectedRecipes}
         setSelectedRecipes={setSelectedRecipes}
         handleAddRecipe={handleAddRecipe}
+        makeShoppingList={makeShoppingList}
       />
       <Pressable style={({ pressed }) => [styles.pressable, {backgroundColor: pressed ? COLORS.alice : COLORS.white}]} onPress={handleGroceryList}>
-        <Text style={styles.btnText}>Make Grocery List</Text>
+        <Text style={styles.btnText}>Make Shopping List</Text>
       </Pressable>
     </>
   )

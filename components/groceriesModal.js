@@ -3,7 +3,14 @@ import { Modal, StyleSheet, View, Text, TouchableHighlight, FlatList, Alert } fr
 import { COLORS } from '../config/colors';
 import RecipeSelectList from './recipeSelectList';
 
-export default function GroceriesModal({ modalVisible, setModalVisible, recipes, selectedRecipes, setSelectedRecipes, handleAddRecipe }) {
+export default function GroceriesModal({
+  modalVisible,
+  setModalVisible,
+  recipes,
+  selectedRecipes,
+  setSelectedRecipes,
+  handleAddRecipe,
+  makeShoppingList }) {
 
   const renderItem = ({ item, index }) => (
     <RecipeSelectList
@@ -48,7 +55,8 @@ export default function GroceriesModal({ modalVisible, setModalVisible, recipes,
               underlayColor={COLORS.blueGray}
               onPress={() => {
                 setModalVisible(!modalVisible)
-                handleAddRecipe('Shopping List')
+                makeShoppingList(selectedRecipes)
+                setSelectedRecipes([])
               }}
             >
               <Text style={styles.textStyle}>Submit</Text>

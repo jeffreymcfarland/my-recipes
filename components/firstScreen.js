@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: '600',
     paddingTop: 120,
-    color: COLORS.unitedNations
+    color: COLORS.blueGray
   },
   inputView: {
     flex: 1,

@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { TextInput, StyleSheet, View } from 'react-native';
 import { COLORS } from '../config/colors';
 
 export default function Directions({ recipeDirections, handleSetRecipeDirections }) {
-  // const [value, onChangeText] = useState('');
 
   return (
     <View style={styles.view}>
@@ -21,7 +20,7 @@ export default function Directions({ recipeDirections, handleSetRecipeDirections
 
 const styles = StyleSheet.create({
   view: {
-
+    flex: 1
   },
   title: {
     fontSize: 24,

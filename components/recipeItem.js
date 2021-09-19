@@ -5,7 +5,6 @@ import { COLORS } from '../config/colors';
 
 export default function RecipeItem({
   value,
-  closeNav,
   index,
   checked,
   handleCheckedItem,
@@ -29,7 +28,7 @@ export default function RecipeItem({
         style={[styles.checkboxBase, checked && styles.checkboxChecked]}
         onPress={() => handleCheckedItem(index, !checked)}
       >
-        {checked && <Ionicons name='checkmark' size={24} color={COLORS.artichoke} style={styles.icon} />}
+        {checked && <Ionicons name='checkmark' size={24} color={COLORS.artichoke} />}
       </Pressable>
       <TextInput
         ref={inputEl}
@@ -39,7 +38,6 @@ export default function RecipeItem({
           if (index !== currentIndex) {
             setCurrentIndex(index)
           }
-          // closeNav()
         }}
         autoFocus={currentIndex === index ? true : false}
         editable
@@ -78,9 +76,6 @@ const styles = StyleSheet.create({
   },
   checkboxChecked: {
     backgroundColor: COLORS.white,
-  },
-  icon: {
-    
   },
   textInput: {
     marginLeft: 10,

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, FlatList, Pressable, Alert } from 'react-native';
 import { COLORS } from '../config/colors';
-import HandleGroceries from './handleGroceries';
+import ShoppingHandler from './shoppingHandler';
 
 function Item({ title, recipeTitle, selectRecipe, handleRemoveRecipe }) {
   const [deleteTitle, setDeleteTitle] = useState('')
@@ -55,7 +55,7 @@ export default function SideNav({ navOpen, recipes, recipeTitle, selectRecipe, h
           renderItem={({ item }) => <Item title={item.title} recipeTitle={recipeTitle} selectRecipe={selectRecipe} handleRemoveRecipe={handleRemoveRecipe} />}
           keyExtractor={(item, index) => index.toString()}
           style={styles.list}
-          ListFooterComponent={<HandleGroceries recipes={recipes} handleAddRecipe={handleAddRecipe}/>}
+          ListFooterComponent={<ShoppingHandler recipes={recipes} handleAddRecipe={handleAddRecipe}/>}
         />
       </View>
       :

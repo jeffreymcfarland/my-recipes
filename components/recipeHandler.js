@@ -6,7 +6,7 @@ import RecipeItem from './recipeItem';
 
 export default function recipeHandler({
   recipes,
-  closeNav,
+  recipeTitle,
   handleCheckedItem,
   handleItemChange,
   handleAddNewLine,
@@ -25,7 +25,6 @@ export default function recipeHandler({
   const renderItem = ({ item, index }) => (
     <RecipeItem
       value={item.item}
-      closeNav={closeNav}
       key={index}
       index={index}
       checked={item.checked}
@@ -41,7 +40,7 @@ export default function recipeHandler({
   return (
     <>
       <RecipeTabs
-        tabs={tabs}
+        tabs={recipeTitle === 'Shopping List' ? [] : tabs}
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
         setCurrentIndex={setCurrentIndex}

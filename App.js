@@ -189,16 +189,11 @@ export default function App() {
     openNav()
   }
 
-  const handleAddRecipe = (title) => {
+  const handleAddRecipe = (title, body) => {
     let allRecipes = [...recipes]
     let newRecipe = {
       'title': `${title}`,
-      'body': [
-        {
-          item: '',
-          checked: false
-        }
-      ]
+      'body': body
     }
     allRecipes.unshift(newRecipe)
     allRecipes.map(eachRecipe => dbh.collection(collectionName).doc(eachRecipe.title).set(eachRecipe))
@@ -319,7 +314,7 @@ export default function App() {
                         <View style={styles.inputAreaInner}>
                           <RecipeHandler
                             recipes={recipeBody}
-                            closeNav={closeNav}
+                            recipeTitle={recipeTitle}
                             handleCheckedItem={handleCheckedItem}
                             handleItemChange={handleItemChange}
                             handleAddNewLine={handleAddNewLine}

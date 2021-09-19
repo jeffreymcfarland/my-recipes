@@ -46,7 +46,10 @@ export default function CustomModal({ handleAddRecipe, modalVisible, setModalVis
               onPress={() => {
                 if (value !== '') {
                   setEmptyInput(false)
-                  handleAddRecipe(value)
+                  handleAddRecipe(value, [{
+                    item: '',
+                    checked: false
+                  }])
                   setModalVisible(!modalVisible);
                 } else {
                   setEmptyInput(true)

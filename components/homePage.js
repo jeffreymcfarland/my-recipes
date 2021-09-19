@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, FlatList, Text, Pressable, TouchableWithoutFeedback } from 'react-native';
 import { COLORS } from '../config/colors';
-import HandleGroceries from './handleGroceries';
+import ShoppingHandler from './shoppingHandler';
 
 const Item = ({ title, selectRecipe }) => (
   <Pressable
@@ -17,7 +17,7 @@ const Item = ({ title, selectRecipe }) => (
 export default function HomePage({ recipes, selectRecipe, toggleNav, handleAddRecipe }) { 
   return (
     <>
-      <HandleGroceries recipes={recipes} handleAddRecipe={handleAddRecipe}/>
+      <ShoppingHandler recipes={recipes} handleAddRecipe={handleAddRecipe}/>
       <TouchableWithoutFeedback onPress={toggleNav}>
         <View style={styles.view}>
           <FlatList
