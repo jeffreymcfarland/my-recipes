@@ -2,10 +2,23 @@ import React from 'react';
 import { StyleSheet, View, TouchableWithoutFeedback } from 'react-native';
 import NavItems from './navItems';
 import HandleNavItems from './handleNavItems';
+import RecipeModal from './recipeModal';
 import { COLORS } from '../config/colors';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function SideNav({ toggleNav, navOpen, navContainerSize, iconPosition, window, recipes, recipeTitle, selectRecipe, handleRemoveRecipe, handleAddRecipe }) {
+export default function SideNav({
+  toggleNav,
+  navOpen,
+  navContainerSize,
+  iconPosition,
+  window,
+  recipes,
+  recipeTitle,
+  selectRecipe,
+  handleRemoveRecipe,
+  handleAddRecipe,
+  addRecipeModalVisible,
+  setAddRecipeModalVisible }) {
 
   return (
     <>
@@ -15,12 +28,15 @@ export default function SideNav({ toggleNav, navOpen, navContainerSize, iconPosi
             width: window.width / navContainerSize
           }]}
         >
+          <RecipeModal handleAddRecipe={handleAddRecipe} addRecipeModalVisible={addRecipeModalVisible} setAddRecipeModalVisible={setAddRecipeModalVisible} />
           {navOpen ? 
             <HandleNavItems
               recipeTitle={recipeTitle}
               handleRemoveRecipe={handleRemoveRecipe} 
               handleAddRecipe={handleAddRecipe}
               selectRecipe={selectRecipe}
+              addRecipeModalVisible={addRecipeModalVisible}
+              setAddRecipeModalVisible={setAddRecipeModalVisible}
             />
             :
             <></>

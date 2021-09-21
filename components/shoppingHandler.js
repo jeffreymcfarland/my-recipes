@@ -2,14 +2,21 @@ import React, { useState } from 'react';
 import { Pressable, Text, StyleSheet } from 'react-native';
 import { COLORS } from '../config/colors';
 import GroceriesModal from './groceriesModal';
+import { Ionicons } from '@expo/vector-icons';
 
-export default function ShoppingHandler({ recipes, handleAddRecipe }) {
+export default function ShoppingHandler({ recipes, handleAddRecipe, insideNav, handleRemoveRecipe, selectRecipe }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedRecipes, setSelectedRecipes] = useState([])
 
   const handleGroceryList = () => {
     setModalVisible(true)
     makeSelectedList()
+    selectRecipe('My Recipes')
+    recipes.map(recipe => {
+      if (recipe.title === 'Shopping List') {
+        handleRemoveRecipe('Shopping List')
+      }
+    })
   }
 
   const makeSelectedList = () => {
@@ -56,8 +63,16 @@ export default function ShoppingHandler({ recipes, handleAddRecipe }) {
         handleAddRecipe={handleAddRecipe}
         makeShoppingList={makeShoppingList}
       />
-      <Pressable style={({ pressed }) => [styles.pressable, {backgroundColor: pressed ? COLORS.alice : COLORS.white}]} onPress={handleGroceryList}>
-        <Text style={styles.btnText}>Make Shopping List</Text>
+      <Pressable
+        style={({ pressed }) => [
+          styles.pressable,
+          {backgroundColor: pressed ? COLORS.alice : COLORS.white},
+          {marginTop: insideNav ? 15 : 0}
+        ]}
+        onPress={handleGroceryList}
+      >
+        <Text style={styles.btnText}>Shopping List</Text>
+        <Ionicons name={'ios-add'} size={24} color={COLORS.cerulean} />
       </Pressable>
     </>
   )
@@ -65,13 +80,13 @@ export default function ShoppingHandler({ recipes, handleAddRecipe }) {
 
 const styles = StyleSheet.create({
   pressable: {
+    flexDirection: 'row',
     backgroundColor: COLORS.alice,
     width: 'auto',
-    padding: 12,
+    padding: 6,
     borderRadius: 5,
     borderColor: COLORS.cerulean,
     borderWidth: 2,
-    marginTop: 20,
     alignSelf: 'center',
     shadowColor: COLORS.jet,
     shadowOffset: {

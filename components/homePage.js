@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, FlatList, Text, Pressable, TouchableWithoutFeedback } from 'react-native';
 import { COLORS } from '../config/colors';
 import ShoppingHandler from './shoppingHandler';
+import AddRecipeBtn from './addRecipeBtn';
 
 const Item = ({ title, selectRecipe }) => (
   <Pressable
@@ -14,10 +15,22 @@ const Item = ({ title, selectRecipe }) => (
   </Pressable>
 )
 
-export default function HomePage({ recipes, selectRecipe, toggleNav, handleAddRecipe }) { 
+export default function HomePage({ recipes, selectRecipe, toggleNav, handleAddRecipe, setAddRecipeModalVisible, handleRemoveRecipe }) { 
   return (
     <>
-      <ShoppingHandler recipes={recipes} handleAddRecipe={handleAddRecipe}/>
+      <View style={styles.handlerView}>
+        <AddRecipeBtn setAddRecipeModalVisible={setAddRecipeModalVisible} />
+        {recipes.length > 0 ?
+          <ShoppingHandler
+            recipes={recipes}
+            handleAddRecipe={handleAddRecipe}
+            handleRemoveRecipe={handleRemoveRecipe}
+            selectRecipe={selectRecipe}
+          />
+        :
+          <></>
+        }
+      </View>
       <TouchableWithoutFeedback onPress={toggleNav}>
         <View style={styles.view}>
           <FlatList
@@ -33,6 +46,12 @@ export default function HomePage({ recipes, selectRecipe, toggleNav, handleAddRe
 }
 
 const styles = StyleSheet.create({
+  handlerView: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignContent: 'center',
+    marginTop: 30
+  },
   view: {
     alignItems: 'center',
     padding: 20

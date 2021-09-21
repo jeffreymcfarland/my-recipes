@@ -55,7 +55,18 @@ export default function SideNav({ navOpen, recipes, recipeTitle, selectRecipe, h
           renderItem={({ item }) => <Item title={item.title} recipeTitle={recipeTitle} selectRecipe={selectRecipe} handleRemoveRecipe={handleRemoveRecipe} />}
           keyExtractor={(item, index) => index.toString()}
           style={styles.list}
-          ListFooterComponent={<ShoppingHandler recipes={recipes} handleAddRecipe={handleAddRecipe}/>}
+          ListFooterComponent={
+            recipes.length > 0
+            ? 
+            <ShoppingHandler
+              recipes={recipes}
+              handleAddRecipe={handleAddRecipe}
+              insideNav handleRemoveRecipe={handleRemoveRecipe}
+              selectRecipe={selectRecipe}
+            />
+            :
+            <></>
+          }
         />
       </View>
       :

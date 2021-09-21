@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Alert, Modal, Text, TouchableHighlight, TextInput } from 'react-native';
 import { COLORS } from '../config/colors';
+import ErrorMessage from './errorMessage';
 
-export default function CustomModal({ handleAddRecipe, modalVisible, setModalVisible }) {
+export default function RecipeModal({ handleAddRecipe, addRecipeModalVisible, setAddRecipeModalVisible }) {
   const [value, setValue] = useState('')
   const [emptyInput, setEmptyInput] = useState(false)
 
@@ -10,7 +11,7 @@ export default function CustomModal({ handleAddRecipe, modalVisible, setModalVis
     <Modal
       animationType="slide"
       transparent={true}
-      visible={modalVisible}
+      visible={addRecipeModalVisible}
       onRequestClose={() => {
         Alert.alert('Modal has been closed.');
       }}
@@ -28,14 +29,14 @@ export default function CustomModal({ handleAddRecipe, modalVisible, setModalVis
             placeholder={emptyInput ? '' : 'Tikka Masala'}
             style={[styles.textinput, emptyInput ? styles.textInputEmpty : {}]}
           />
-          {emptyInput ? <Text style={styles.errorMessage}>Field is required.</Text> : <></>}
+          <ErrorMessage isShown={emptyInput} />
           <View style={styles.btnView} >
             <TouchableHighlight
               style={{...styles.modalBtn, backgroundColor: COLORS.cultured}}
               underlayColor={COLORS.platinum}
               onPress={() => {
                 setValue('')
-                setModalVisible(!modalVisible);
+                setAddRecipeModalVisible(!addRecipeModalVisible);
                 setEmptyInput(false)
               }}>
               <Text style={{...styles.textStyle, color: COLORS.jet}}>Cancel</Text>
@@ -50,10 +51,11 @@ export default function CustomModal({ handleAddRecipe, modalVisible, setModalVis
                     item: '',
                     checked: false
                   }])
-                  setModalVisible(!modalVisible);
+                  setAddRecipeModalVisible(!addRecipeModalVisible);
                 } else {
                   setEmptyInput(true)
                 }
+                setValue('')
               }}>
               <Text style={styles.textStyle}>Submit</Text>
             </TouchableHighlight>
@@ -75,7 +77,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     height: 40,
     width: 200,
-    marginBottom: 20,
+    marginBottom: 29,
     paddingLeft: 10,
     fontSize: 18,
     fontWeight: '600'
@@ -123,11 +125,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
     fontWeight: '600'
-  },
-  errorMessage: {
-    color: COLORS.redwood,
-    alignSelf: 'flex-start',
-    marginBottom: 5,
-    lineHeight: 14
   }
 })

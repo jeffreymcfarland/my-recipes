@@ -1,16 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, View, Pressable, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import CustomModal from './modal';
 import { COLORS } from '../config/colors';
 
-export default function handleNavItems({ handleAddRecipe, selectRecipe }) {
-  const [modalVisible, setModalVisible] = useState(false);
-
+export default function handleNavItems({ selectRecipe, setAddRecipeModalVisible }) {
   return (
     <>
       <View style={styles.view}>
-        <CustomModal handleAddRecipe={handleAddRecipe} modalVisible={modalVisible} setModalVisible={setModalVisible} />
         <Pressable
           onPress={() => selectRecipe('My Recipes')}
           style={({ pressed }) => [styles.pressableHome, {backgroundColor: pressed ? COLORS.earthYellow : COLORS.burlywood}]}
@@ -18,7 +14,7 @@ export default function handleNavItems({ handleAddRecipe, selectRecipe }) {
           <Text style={styles.home}>Home</Text>
         </Pressable>
         <Pressable
-          onPress={() => setModalVisible(true)}
+          onPress={() => setAddRecipeModalVisible(true)}
         >
           <Ionicons name={'ios-add'} size={40} color={COLORS.burlywood} style={styles.addIcon} />
         </Pressable>

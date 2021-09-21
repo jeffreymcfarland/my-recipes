@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, TouchableWithoutFeedback, Text, TouchableHighlight } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { COLORS } from '../config/colors';
+import ErrorMessage from './errorMessage';
 
 export default function firstScreen({ window, handleExitKeyboard, setUserName, setUserFavFood, setCollectionName, getUserData }) {
-  const [user, onChangeUser] = useState('');
-  const [food, onChangeFood] = useState('');
+  const [user, onChangeUser] = useState('')
+  const [food, onChangeFood] = useState('')
+  const [isNameEmpty, setIsNameEmpty] = useState(false)
+  const [isFoodEmpty, setIsFoodEmpty] = useState(false)
 
   const setUserData = () => {
     setUserName(user)
@@ -41,22 +44,43 @@ export default function firstScreen({ window, handleExitKeyboard, setUserName, s
         <View style={styles.inputView}>
           <Text style={styles.inputLabel}>Name</Text>
           <TextInput
-            style={[styles.input, {width: window.width / 1.75}]}
-            onChangeText={text => onChangeUser(text)}
-            placeholder='Jeffrey...'
+            style={[styles.input, {width: window.width / 1.75}, isNameEmpty ? styles.emptyInput : {}]}
+            onChangeText={text => {
+              setIsNameEmpty(false)
+              onChangeUser(text)
+            }}
+            placeholder={isNameEmpty ? '' : 'Jeffrey...'}
             value={user}
           />
+          <ErrorMessage isShown={isNameEmpty} />
           <Text style={styles.inputLabel}>Favorite Food</Text>
           <TextInput
-            style={[styles.input, {width: window.width / 1.75}]}
-            onChangeText={text => onChangeFood(text)}
-            placeholder='Pizza...'
+            style={[styles.input, {width: window.width / 1.75}, isFoodEmpty ? styles.emptyInput : {}]}
+            onChangeText={text => {
+              setIsFoodEmpty(false)
+              onChangeFood(text)
+            }}
+            placeholder={isFoodEmpty ? '' : 'Pizza...'}
             value={food}
           />
+          <ErrorMessage isShown={isFoodEmpty} />
           <TouchableHighlight
             style={styles.submitBtn}
-            onPress={setUserData}
-            underlayColor={COLORS.unitedNations}
+            onPress={() => {
+              if (user === '' && food === '') {
+                setIsNameEmpty(true)
+                setIsFoodEmpty(true)
+              } else if (user === '') {
+                setIsNameEmpty(true)
+              } else if (food === '') {
+                setIsFoodEmpty(true)
+              } else {
+                setIsNameEmpty(false)
+                setIsFoodEmpty(false)
+                setUserData()
+              }
+            }}
+            underlayColor={COLORS.blueGray}
           >
             <Text style={styles.submitText}>Submit</Text>
           </TouchableHighlight>
@@ -70,7 +94,7 @@ const styles = StyleSheet.create({
   view: {
     flex: 1,
     justifyContent: 'center',
-    alignContent: 'flex-start'
+    alignContent: 'center'
   },
   title: {
     alignSelf: 'center',
@@ -83,31 +107,35 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignContent: 'center',
-    paddingBottom: 120
+    paddingBottom: 150
   },
   input: {
     alignSelf: 'center',
-    borderColor: COLORS.salmon,
+    borderColor: COLORS.burlywood,
     borderWidth: 2,
     borderRadius: 4,
     height: 45,
     paddingLeft: 10,
-    margin: 20,
+    marginBottom: 30,
     marginTop: 5
+  },
+  emptyInput: {
+    marginBottom: 5,
+    borderColor: COLORS.redwood
   },
   inputLabel: {
     width: '55%',
     alignSelf: 'center',
     fontSize: 20,
     fontWeight: '600',
-    color: COLORS.salmon
+    color: COLORS.burlywood
   },
   submitBtn: {
     width: 100,
     height: 40,
     alignSelf: 'center',
     justifyContent: 'center',
-    backgroundColor: COLORS.littleBoy,
+    backgroundColor: COLORS.cerulean,
     borderRadius: 4,
     marginTop: 10
   },

@@ -23,35 +23,6 @@ const dbh = firebase.firestore();
 
 const window = Dimensions.get('window')
 
-const dummyData = [
-  {
-    'title': 'Tikka Masala',
-    'body': [
-      {
-        item: '2 cans tomatoes',
-        checked: false
-      },
-      {
-        item: 'spices',
-        checked: false
-      },
-      {
-        item: 'basmati rice',
-        checked: false
-      },
-      {
-        item: 'yogurt',
-        checked: false
-      },
-      {
-        item: 'veggies',
-        checked: false
-      }
-    ],
-    'directions': ''
-  }
-]
-
 export default function App() {
   const [appReady, setAppReady] = useState(false)
   const [userName, setUserName] = useState('')
@@ -66,6 +37,7 @@ export default function App() {
   const [recipeDirections, setRecipeDirections] = useState('')
   const [inputActive, setInputActive] = useState(true)
   const [currentIndex, setCurrentIndex] = useState()
+  const [addRecipeModalVisible, setAddRecipeModalVisible] = useState(false);
   let [fontsLoaded] = useFonts({
     Roboto_500Medium,
   });
@@ -94,10 +66,14 @@ export default function App() {
         dbh.collection(collection).get().then(docs => {
           let array = []
           if (docs.size !== 0) {
-            docs.forEach(doc => array.push(doc.data()))
+            docs.forEach(doc => {
+              if (doc.data().title === 'Shopping List') {
+                array.unshift(doc.data())
+              } else {
+                array.push(doc.data())
+              }
+            })
             setRecipes(array)
-          } else {
-            setRecipes(dummyData)
           }
         })
       }
@@ -198,6 +174,7 @@ export default function App() {
     allRecipes.unshift(newRecipe)
     allRecipes.map(eachRecipe => dbh.collection(collectionName).doc(eachRecipe.title).set(eachRecipe))
     setRecipes(allRecipes)
+    selectRecipe(title)
   }
 
   const handleItemChange = (index, text) => {
@@ -293,6 +270,8 @@ export default function App() {
               selectRecipe={selectRecipe}
               handleRemoveRecipe={handleRemoveRecipe}
               handleAddRecipe={handleAddRecipe}
+              addRecipeModalVisible={addRecipeModalVisible}
+              setAddRecipeModalVisible={setAddRecipeModalVisible}
             />
             <KeyboardAvoidingView
               behavior={Platform.OS === "ios" ? "padding" : null}
@@ -309,6 +288,8 @@ export default function App() {
                           selectRecipe={selectRecipe}
                           toggleNav={toggleNav}
                           handleAddRecipe={handleAddRecipe}
+                          setAddRecipeModalVisible={setAddRecipeModalVisible}
+                          handleRemoveRecipe={handleRemoveRecipe}
                         />
                         :
                         <View style={styles.inputAreaInner}>
