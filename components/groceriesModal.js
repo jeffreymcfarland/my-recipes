@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, StyleSheet, View, Text, TouchableHighlight, FlatList, Alert } from 'react-native';
+import { Modal, StyleSheet, View, Text, TouchableHighlight, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { COLORS } from '../config/colors';
 import RecipeSelectList from './recipeSelectList';
 
@@ -25,44 +25,49 @@ export default function GroceriesModal({
       transparent={true}
       visible={modalVisible}
       onRequestClose={() => {
-        Alert.alert('Modal has been closed.');
+        setModalVisible(!modalVisible)
       }}
     >
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
-          <Text style={styles.modalText}>Select Recipes</Text>
-          <Text style={styles.modalSubText}>to include in your grocery list</Text>
-          <FlatList
-            data={recipes}
-            renderItem={renderItem}
-            keyExtractor={(item, index) => index.toString()}
-            style={styles.flatlist}
-          />
-          <View style={styles.btnView}>
-            <TouchableHighlight
-              style={{...styles.modalBtn, backgroundColor: COLORS.cultured}}
-              underlayColor={COLORS.platinum}
-              onPress={() => {
-                setModalVisible(!modalVisible)
-                setSelectedRecipes([])
-              }}
-            >
-              <Text style={{...styles.textStyle, color: COLORS.jet}}>Cancel</Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              style={styles.modalBtn}
-              underlayColor={COLORS.blueGray}
-              onPress={() => {
-                setModalVisible(!modalVisible)
-                makeShoppingList(selectedRecipes)
-                setSelectedRecipes([])
-              }}
-            >
-              <Text style={styles.textStyle}>Submit</Text>
-            </TouchableHighlight>
+      <TouchableWithoutFeedback
+        onPress={(() => setModalVisible(!modalVisible))}
+        underlayColor='transparent'
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Shopping List</Text>
+            <Text style={styles.modalSubText}>Select recipes to include in your shopping list</Text>
+            <FlatList
+              data={recipes}
+              renderItem={renderItem}
+              keyExtractor={(item, index) => index.toString()}
+              style={styles.flatlist}
+            />
+            <View style={styles.btnView}>
+              <TouchableHighlight
+                style={{...styles.modalBtn, backgroundColor: COLORS.cultured}}
+                underlayColor={COLORS.platinum}
+                onPress={() => {
+                  setModalVisible(!modalVisible)
+                  setSelectedRecipes([])
+                }}
+              >
+                <Text style={{...styles.textStyle, color: COLORS.jet}}>Cancel</Text>
+              </TouchableHighlight>
+              <TouchableHighlight
+                style={styles.modalBtn}
+                underlayColor={COLORS.blueGray}
+                onPress={() => {
+                  setModalVisible(!modalVisible)
+                  makeShoppingList(selectedRecipes)
+                  setSelectedRecipes([])
+                }}
+              >
+                <Text style={styles.textStyle}>Submit</Text>
+              </TouchableHighlight>
+            </View>
           </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     </Modal>
   )
 }
@@ -80,7 +85,7 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: COLORS.white,
     borderRadius: 20,
-    padding: 50,
+    padding: 70,
     alignItems: 'center',
     shadowColor: COLORS.jet,
     shadowOffset: {
@@ -110,7 +115,7 @@ const styles = StyleSheet.create({
   },
   modalText: {
     marginBottom: 10,
-    fontSize: 24,
+    fontSize: 30,
     textAlign: 'center',
     fontWeight: '700'
   },

@@ -55,7 +55,7 @@ export default function HomePage({
 const styles = StyleSheet.create({
   handlerView: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
     alignContent: 'center',
     marginTop: 30
   },

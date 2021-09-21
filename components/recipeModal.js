@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Alert, Modal, Text, TouchableHighlight, TextInput } from 'react-native';
+import { StyleSheet, View, Alert, Modal, Text, TouchableHighlight, TextInput, TouchableWithoutFeedback } from 'react-native';
 import { COLORS } from '../config/colors';
 import ErrorMessage from './errorMessage';
 
@@ -14,54 +14,60 @@ export default function RecipeModal({ handleAddRecipe, addRecipeModalVisible, se
       visible={addRecipeModalVisible}
       onRequestClose={() => {
         Alert.alert('Modal has been closed.');
+        setAddRecipeModalVisible(!addRecipeModalVisible)
       }}
     >
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
-          <Text style={styles.modalText}>Enter Recipe Title</Text>
-          <TextInput
-            value={value}
-            onChangeText={text => {
-              setEmptyInput(false)
-              setValue(text)
-            }}
-            editable
-            placeholder={emptyInput ? '' : 'Tikka Masala'}
-            style={[styles.textinput, emptyInput ? styles.textInputEmpty : {}]}
-          />
-          <ErrorMessage isShown={emptyInput} />
-          <View style={styles.btnView} >
-            <TouchableHighlight
-              style={{...styles.modalBtn, backgroundColor: COLORS.cultured}}
-              underlayColor={COLORS.platinum}
-              onPress={() => {
-                setValue('')
-                setAddRecipeModalVisible(!addRecipeModalVisible);
+      <TouchableWithoutFeedback
+        onPress={(() => setAddRecipeModalVisible(!addRecipeModalVisible))}
+        underlayColor='transparent'
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Enter Recipe Title</Text>
+            <TextInput
+              value={value}
+              onChangeText={text => {
                 setEmptyInput(false)
-              }}>
-              <Text style={{...styles.textStyle, color: COLORS.jet}}>Cancel</Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              style={styles.modalBtn}
-              underlayColor={COLORS.earthYellow}
-              onPress={() => {
-                if (value !== '') {
-                  setEmptyInput(false)
-                  handleAddRecipe(value, [{
-                    item: '',
-                    checked: false
-                  }])
+                setValue(text)
+              }}
+              editable
+              placeholder={emptyInput ? '' : 'Tikka Masala'}
+              style={[styles.textinput, emptyInput ? styles.textInputEmpty : {}]}
+            />
+            <ErrorMessage isShown={emptyInput} />
+            <View style={styles.btnView} >
+              <TouchableHighlight
+                style={{...styles.modalBtn, backgroundColor: COLORS.cultured}}
+                underlayColor={COLORS.platinum}
+                onPress={() => {
+                  setValue('')
                   setAddRecipeModalVisible(!addRecipeModalVisible);
-                } else {
-                  setEmptyInput(true)
-                }
-                setValue('')
-              }}>
-              <Text style={styles.textStyle}>Submit</Text>
-            </TouchableHighlight>
+                  setEmptyInput(false)
+                }}>
+                <Text style={{...styles.textStyle, color: COLORS.jet}}>Cancel</Text>
+              </TouchableHighlight>
+              <TouchableHighlight
+                style={styles.modalBtn}
+                underlayColor={COLORS.earthYellow}
+                onPress={() => {
+                  if (value !== '') {
+                    setEmptyInput(false)
+                    handleAddRecipe(value, [{
+                      item: '',
+                      checked: false
+                    }])
+                    setAddRecipeModalVisible(!addRecipeModalVisible);
+                  } else {
+                    setEmptyInput(true)
+                  }
+                  setValue('')
+                }}>
+                <Text style={styles.textStyle}>Submit</Text>
+              </TouchableHighlight>
+            </View>
           </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     </Modal>
   )
 }

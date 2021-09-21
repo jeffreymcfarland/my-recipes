@@ -1,7 +1,7 @@
 import React from 'react'
 import { Pressable, Text, StyleSheet } from 'react-native'
 import { COLORS } from '../config/colors'
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function AddRecipeBtn({ setAddRecipeModalVisible }) {
   return (
@@ -12,8 +12,8 @@ export default function AddRecipeBtn({ setAddRecipeModalVisible }) {
       ]}
       onPress={() => setAddRecipeModalVisible(true)}
     >
-      <Text style={styles.btnText}>New Recipe</Text>
-      <Ionicons name={'ios-add'} size={24} color={COLORS.white} />
+      <Text style={styles.btnText}>Recipe</Text>
+      <MaterialIcons name="post-add" size={30} color={COLORS.white} />
     </Pressable>
   )
 }
@@ -31,11 +31,13 @@ const styles = StyleSheet.create({
       width: 2,
       height: 2
     },
-    shadowOpacity: 0.4
+    shadowOpacity: 0.4,
+    marginRight: 15
   },
   btnText: {
     color: COLORS.white,
-    fontSize: 18,
-    fontWeight: '700'
+    fontSize: 24,
+    fontWeight: '600',
+    marginRight: 5
   }
 })
