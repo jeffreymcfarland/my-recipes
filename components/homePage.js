@@ -15,7 +15,14 @@ const Item = ({ title, selectRecipe }) => (
   </Pressable>
 )
 
-export default function HomePage({ recipes, selectRecipe, toggleNav, handleAddRecipe, setAddRecipeModalVisible, handleRemoveRecipe }) { 
+export default function HomePage({
+  recipes,
+  selectRecipe,
+  toggleNav,
+  handleAddRecipe,
+  setAddRecipeModalVisible,
+  handleRemoveRecipe
+}) { 
   return (
     <>
       <View style={styles.handlerView}>
@@ -25,7 +32,7 @@ export default function HomePage({ recipes, selectRecipe, toggleNav, handleAddRe
             recipes={recipes}
             handleAddRecipe={handleAddRecipe}
             handleRemoveRecipe={handleRemoveRecipe}
-            selectRecipe={selectRecipe}
+            backgroundColor={COLORS.white}
           />
         :
           <></>

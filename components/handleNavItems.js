@@ -1,9 +1,19 @@
 import React from 'react';
 import { StyleSheet, View, Pressable, Text } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { COLORS } from '../config/colors';
+import ShoppingHandler from './shoppingHandler';
 
-export default function handleNavItems({ selectRecipe, setAddRecipeModalVisible }) {
+export default function handleNavItems({
+  selectRecipe,
+  setAddRecipeModalVisible,
+  recipes,
+  handleAddRecipe,
+  handleRemoveRecipe,
+  setRecipeTitle,
+  setRecipeBody,
+  toggleNav,
+ }) {
   return (
     <>
       <View style={styles.view}>
@@ -15,9 +25,19 @@ export default function handleNavItems({ selectRecipe, setAddRecipeModalVisible 
         </Pressable>
         <Pressable
           onPress={() => setAddRecipeModalVisible(true)}
+          style={styles.recipePressable}
         >
-          <Ionicons name={'ios-add'} size={40} color={COLORS.burlywood} style={styles.addIcon} />
+          <MaterialIcons name="post-add" size={34} color={COLORS.cerulean} />
         </Pressable>
+        <ShoppingHandler
+          recipes={recipes}
+          handleAddRecipe={handleAddRecipe}
+          handleRemoveRecipe={handleRemoveRecipe}
+          setRecipeTitle={setRecipeTitle}
+          setRecipeBody={setRecipeBody}
+          toggleNav={toggleNav}
+          backgroundColor={COLORS.seashell}
+        />
       </View>
     </>
   )
@@ -27,14 +47,17 @@ const styles = StyleSheet.create({
   view: {
     flexDirection: 'row',
     width: '100%',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
     height: 50,
-    marginTop: 30
+    marginTop: 30,
+    paddingRight: 10,
+    paddingLeft: 10
   },
   pressableHome: {
     padding: 10,
-    width: '75%',
+    width: '50%',
+    marginRight: 20,
     borderRadius: 5,
     shadowColor: COLORS.jet,
     shadowOffset: {
@@ -49,13 +72,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     color: COLORS.white
   },
-  addIcon: {
-    backgroundColor: 'transparent',
-    shadowColor: COLORS.jet,
-    shadowOffset: {
-      width: 2,
-      height: 1
-    },
-    shadowOpacity: 0.4
+  recipePressable: {
+    marginRight: 10
   }
 })

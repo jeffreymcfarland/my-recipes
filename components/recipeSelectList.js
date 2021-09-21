@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Switch, View, Text, StyleSheet} from 'react-native';
+import { COLORS } from '../config/colors';
 
 export default function RecipeSelectList({ title, selectedRecipes, setSelectedRecipes }) {
   const [isSwitched, setIsSwitched] = useState(false)
@@ -25,6 +26,9 @@ export default function RecipeSelectList({ title, selectedRecipes, setSelectedRe
   return(
     <View style={styles.view}>
       <Switch
+        trackColor={{ true: COLORS.beau }}
+        thumbColor={isSwitched ? COLORS.cerulean : COLORS.white}
+        ios_backgroundColor={COLORS.white}
         onValueChange={toggleSwitch}
         value={isSwitched}
       />

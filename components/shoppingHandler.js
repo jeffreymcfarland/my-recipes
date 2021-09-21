@@ -2,16 +2,20 @@ import React, { useState } from 'react';
 import { Pressable, Text, StyleSheet } from 'react-native';
 import { COLORS } from '../config/colors';
 import GroceriesModal from './groceriesModal';
-import { Ionicons } from '@expo/vector-icons';
+import { Fontisto } from '@expo/vector-icons';
 
-export default function ShoppingHandler({ recipes, handleAddRecipe, insideNav, handleRemoveRecipe, selectRecipe }) {
+export default function ShoppingHandler({
+  recipes,
+  handleAddRecipe,
+  handleRemoveRecipe,
+  backgroundColor
+}) {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedRecipes, setSelectedRecipes] = useState([])
 
   const handleGroceryList = () => {
     setModalVisible(true)
     makeSelectedList()
-    selectRecipe('My Recipes')
     recipes.map(recipe => {
       if (recipe.title === 'Shopping List') {
         handleRemoveRecipe('Shopping List')
@@ -48,7 +52,6 @@ export default function ShoppingHandler({ recipes, handleAddRecipe, insideNav, h
         }
       })
     })
-
     handleAddRecipe('Shopping List', listBody)
   }
 
@@ -60,19 +63,16 @@ export default function ShoppingHandler({ recipes, handleAddRecipe, insideNav, h
         recipes={recipes}
         selectedRecipes={selectedRecipes}
         setSelectedRecipes={setSelectedRecipes}
-        handleAddRecipe={handleAddRecipe}
         makeShoppingList={makeShoppingList}
       />
       <Pressable
         style={({ pressed }) => [
           styles.pressable,
-          {backgroundColor: pressed ? COLORS.alice : COLORS.white},
-          {marginTop: insideNav ? 15 : 0}
+          {backgroundColor: pressed ? COLORS.alice : COLORS.white}
         ]}
         onPress={handleGroceryList}
       >
-        <Text style={styles.btnText}>Shopping List</Text>
-        <Ionicons name={'ios-add'} size={24} color={COLORS.cerulean} />
+        <Fontisto style={[{backgroundColor: backgroundColor}]} name="shopping-basket-add" size={24} color={COLORS.cerulean} />
       </Pressable>
     </>
   )
@@ -80,25 +80,7 @@ export default function ShoppingHandler({ recipes, handleAddRecipe, insideNav, h
 
 const styles = StyleSheet.create({
   pressable: {
-    flexDirection: 'row',
-    backgroundColor: COLORS.alice,
-    width: 'auto',
-    padding: 6,
     borderRadius: 5,
-    borderColor: COLORS.cerulean,
-    borderWidth: 2,
-    alignSelf: 'center',
-    shadowColor: COLORS.jet,
-    shadowOffset: {
-      width: 2,
-      height: 2
-    },
-    shadowOpacity: 0.3
-  },
-  btnText: {
-    alignSelf: 'center',
-    color: COLORS.cerulean,
-    fontSize: 18,
-    fontWeight: '600'
+    alignSelf: 'center'
   }
 })

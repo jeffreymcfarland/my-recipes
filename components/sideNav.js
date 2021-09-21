@@ -18,8 +18,8 @@ export default function SideNav({
   handleRemoveRecipe,
   handleAddRecipe,
   addRecipeModalVisible,
-  setAddRecipeModalVisible }) {
-
+  setAddRecipeModalVisible
+}) {
   return (
     <>
       <TouchableWithoutFeedback style={styles.navTouchable} onPress={toggleNav} hitSlop={navOpen ? {right: 200} : {}}>
@@ -31,12 +31,11 @@ export default function SideNav({
           <RecipeModal handleAddRecipe={handleAddRecipe} addRecipeModalVisible={addRecipeModalVisible} setAddRecipeModalVisible={setAddRecipeModalVisible} />
           {navOpen ? 
             <HandleNavItems
-              recipeTitle={recipeTitle}
-              handleRemoveRecipe={handleRemoveRecipe} 
-              handleAddRecipe={handleAddRecipe}
               selectRecipe={selectRecipe}
-              addRecipeModalVisible={addRecipeModalVisible}
               setAddRecipeModalVisible={setAddRecipeModalVisible}
+              recipes={recipes}
+              handleAddRecipe={handleAddRecipe}
+              handleRemoveRecipe={handleRemoveRecipe}
             />
             :
             <></>
@@ -47,7 +46,6 @@ export default function SideNav({
             recipeTitle={recipeTitle}
             selectRecipe={selectRecipe}
             handleRemoveRecipe={handleRemoveRecipe}
-            handleAddRecipe={handleAddRecipe}
           />
           <View
             style={[styles.iconContainer, {

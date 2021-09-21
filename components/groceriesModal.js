@@ -9,7 +9,6 @@ export default function GroceriesModal({
   recipes,
   selectedRecipes,
   setSelectedRecipes,
-  handleAddRecipe,
   makeShoppingList }) {
 
   const renderItem = ({ item, index }) => (

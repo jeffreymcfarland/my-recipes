@@ -174,7 +174,10 @@ export default function App() {
     allRecipes.unshift(newRecipe)
     allRecipes.map(eachRecipe => dbh.collection(collectionName).doc(eachRecipe.title).set(eachRecipe))
     setRecipes(allRecipes)
-    selectRecipe(title)
+
+    setRecipeTitle(title)
+    setRecipeBody(body)
+    closeNav()
   }
 
   const handleItemChange = (index, text) => {
