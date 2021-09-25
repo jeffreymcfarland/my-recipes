@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, View, TouchableWithoutFeedback, Pressable } from 'react-native';
 import NavItems from './navItems';
 import HandleNavItems from './handleNavItems';
 import RecipeModal from './recipeModal';
@@ -22,7 +22,7 @@ export default function SideNav({
 }) {
   return (
     <>
-      <TouchableWithoutFeedback style={styles.navTouchable} onPress={toggleNav} hitSlop={navOpen ? {right: 200} : {}}>
+      <TouchableWithoutFeedback style={styles.navTouchable} onPress={toggleNav} hitSlop={navOpen ? {right: 200, left: -200} : {}}>
         <View 
           style={[styles.navContainer, {
             width: window.width / navContainerSize
@@ -52,9 +52,9 @@ export default function SideNav({
               width: window.width / iconPosition
             }]}
           >
-            <View style={styles.iconView}>
+            <Pressable style={styles.iconView} onPress={toggleNav}>
               <Ionicons name={navOpen ? 'chevron-back-circle' : 'chevron-forward-circle'} style={styles.chevron} size={40} color={COLORS.salmon} />
-            </View>
+            </Pressable>
           </View>
         </View>
       </TouchableWithoutFeedback>

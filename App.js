@@ -110,7 +110,7 @@ export default function App() {
     } else {
       closeNav()
     }
-    setCurrentIndex(-1)
+    setCurrentIndex()
   }
 
   const selectRecipe = (title) => {
@@ -231,6 +231,7 @@ export default function App() {
 
   const handleExitKeyboard = () => {
     Keyboard.dismiss()
+    setCurrentIndex()
   }
 
   const handleAppLoading = () => {

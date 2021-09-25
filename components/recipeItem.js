@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { View, Pressable, TextInput, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../config/colors';
@@ -39,7 +39,6 @@ export default function RecipeItem({
             setCurrentIndex(index)
           }
         }}
-        autoFocus={currentIndex === index ? true : false}
         editable
         blurOnSubmit={false}
         onKeyPress={data => {
@@ -78,7 +77,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
   },
   textInput: {
-    marginLeft: 10,
+    marginLeft: 15,
     fontSize: 18,
     width: '100%'
   }
