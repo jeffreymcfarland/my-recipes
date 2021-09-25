@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import { FlatList } from 'react-native';
-import Directions from './directions';
 import RecipeTabs from './recipeTabs';
 import RecipeItem from './recipeItem';
+import DirectionSteps from './directionSteps';
 
 export default function recipeHandler({
-  recipes,
+  ingredients,
+  directions,
   recipeTitle,
   handleCheckedItem,
   handleItemChange,
   handleAddNewLine,
   handleRemoveItemLine,
-  recipeDirections,
-  handleSetRecipeDirections,
   currentIndex,
   setCurrentIndex
 }) {
@@ -37,6 +36,21 @@ export default function recipeHandler({
     />
   );
 
+  const renderDirectionItem = ({ item, index }) => (
+    <DirectionSteps
+      value={item.item}
+      key={index}
+      index={index}
+      checked={item.checked}
+      handleCheckedItem={handleCheckedItem}
+      handleItemChange={handleItemChange}
+      handleAddNewLine={handleAddNewLine}
+      handleRemoveItemLine={handleRemoveItemLine}
+      currentIndex={currentIndex}
+      setCurrentIndex={setCurrentIndex}
+    />
+  );
+
   return (
     <>
       <RecipeTabs
@@ -47,12 +61,16 @@ export default function recipeHandler({
       />
       {selectedTab === 'Ingredients' ? 
         <FlatList
-          data={recipes}
+          data={ingredients}
           renderItem={renderItem}
           keyExtractor={(item, index) => index.toString()}
         />
       :
-        <Directions recipeDirections={recipeDirections} handleSetRecipeDirections={handleSetRecipeDirections} />
+        <FlatList
+          data={directions}
+          renderItem={renderDirectionItem}
+          keyExtractor={(item, index) => index.toString()}
+        />
       }
     </>
   )

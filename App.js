@@ -34,8 +34,7 @@ export default function App() {
   const [iconPosition, setIconPosition] = useState(8)
   const [recipeTitle, setRecipeTitle] = useState('My Recipes')
   const [recipeBody, setRecipeBody] = useState([])
-  const [recipeDirections, setRecipeDirections] = useState('')
-  const [inputActive, setInputActive] = useState(true)
+  const [recipeDirections, setRecipeDirections] = useState([])
   const [currentIndex, setCurrentIndex] = useState()
   const [addRecipeModalVisible, setAddRecipeModalVisible] = useState(false);
   let [fontsLoaded] = useFonts({
@@ -121,7 +120,10 @@ export default function App() {
       if (recipe.title === title) {
         setRecipeBody(recipe.body)
         if (!recipe.directions) {
-          setRecipeDirections('')
+          setRecipeDirections([{
+            item: '',
+            checked: false
+          }])
         } else {
           setRecipeDirections(recipe.directions)
         }
@@ -141,11 +143,11 @@ export default function App() {
     setRecipes(allRecipes)
   }
 
-  const setAllRecipeDirectionsData = (text) => {
+  const setAllRecipeDirectionsData = (directions) => {
     let allRecipes = [...recipes]
     const recipeIndex = allRecipes.findIndex(obj => obj.title === recipeTitle)
     let recipe = {...allRecipes[recipeIndex]}
-    recipe.directions = text
+    recipe.directions = directions
     allRecipes[recipeIndex] = recipe
     allRecipes.map(eachRecipe => dbh.collection(collectionName).doc(eachRecipe.title).set(eachRecipe))
     setRecipes(allRecipes)
@@ -165,11 +167,12 @@ export default function App() {
     openNav()
   }
 
-  const handleAddRecipe = (title, body) => {
+  const handleAddRecipe = (title, body, directions) => {
     let allRecipes = [...recipes]
     let newRecipe = {
       'title': `${title}`,
-      'body': body
+      'body': body,
+      'directions': directions
     }
     allRecipes.unshift(newRecipe)
     allRecipes.map(eachRecipe => dbh.collection(collectionName).doc(eachRecipe.title).set(eachRecipe))
@@ -177,56 +180,88 @@ export default function App() {
 
     setRecipeTitle(title)
     setRecipeBody(body)
+    setRecipeDirections(directions)
     closeNav()
   }
 
-  const handleItemChange = (index, text) => {
-    if (inputActive) {
-      let items = [...recipeBody]
-      let item = {...items[index]}
-      item.item = text
-      items[index] = item
+  const handleItemChange = (index, text, listType) => {
+    let items = []
+    if (listType === 'ingredients') {
+      items = [...recipeBody]
+    } else {
+      items = [...recipeDirections]
+    }
+    let item = {...items[index]}
+    item.item = text
+    items[index] = item
+
+    if (listType === 'ingredients') {
       setRecipeBody(items)
-  
       setAllRecipeData(items)
+    } else {
+      setRecipeDirections(items)
+      setAllRecipeDirectionsData(items)
     }
   }
 
-  const handleAddNewLine = (newItemIndex, index, text) => {
-    let items = [...recipeBody]
+  const handleAddNewLine = (index, text, listType) => {
+    let items = []
+    if (listType === 'ingredients') {
+      items = [...recipeBody]
+    } else {
+      items = [...recipeDirections]
+    }
     let newItem = {
       item: text,
       checked: false
     }
     items.splice(index + 1, 0, newItem)
-    setRecipeBody(items)
-    
-    setAllRecipeData(items)
+
+    if (listType === 'ingredients') {
+      setRecipeBody(items)
+      setAllRecipeData(items)
+    } else {
+      setRecipeDirections(items)
+      setAllRecipeDirectionsData(items)
+    }
   }
 
-  const handleRemoveItemLine = (index) => {
-    setInputActive(false)
-    let items = [...recipeBody]
+  const handleRemoveItemLine = (index, listType) => {
+    let items = []
+    if (listType === 'ingredients') {
+      items = [...recipeBody]
+    } else {
+      items = [...recipeDirections]
+    }
     items.splice(index, 1)
-    setRecipeBody(items)
 
-    setAllRecipeData(items)
+    if (listType === 'ingredients') {
+      setRecipeBody(items)
+      setAllRecipeData(items)
+    } else {
+      setRecipeDirections(items)
+      setAllRecipeDirectionsData(items)
+    }
   }
 
-  const handleCheckedItem = (index, checked) => {
-    let items = [...recipeBody]
+  const handleCheckedItem = (index, checked, listType) => {
+    let items = []
+    if (listType === 'ingredients') {
+      items = [...recipeBody]
+    } else {
+      items = [...recipeDirections]
+    }
     let item = {...items[index]}
     item.checked = checked
     items[index] = item
-    setRecipeBody(items)
 
-    setAllRecipeData(items)
-  }
-
-  const handleSetRecipeDirections = (text) => {
-    setRecipeDirections(text)
-
-    setAllRecipeDirectionsData(text)
+    if (listType === 'ingredients') {
+      setRecipeBody(items)
+      setAllRecipeData(items)
+    } else {
+      setRecipeDirections(items)
+      setAllRecipeDirectionsData(items)
+    }
   }
 
   const handleExitKeyboard = () => {
@@ -298,14 +333,13 @@ export default function App() {
                         :
                         <View style={styles.inputAreaInner}>
                           <RecipeHandler
-                            recipes={recipeBody}
+                            ingredients={recipeBody}
+                            directions={recipeDirections}
                             recipeTitle={recipeTitle}
                             handleCheckedItem={handleCheckedItem}
                             handleItemChange={handleItemChange}
                             handleAddNewLine={handleAddNewLine}
                             handleRemoveItemLine={handleRemoveItemLine}
-                            recipeDirections={recipeDirections}
-                            handleSetRecipeDirections={handleSetRecipeDirections}
                             currentIndex={currentIndex}
                             setCurrentIndex={setCurrentIndex}
                           />

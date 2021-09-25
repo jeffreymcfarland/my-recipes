@@ -55,6 +55,10 @@ export default function RecipeModal({ handleAddRecipe, addRecipeModalVisible, se
                     handleAddRecipe(value, [{
                       item: '',
                       checked: false
+                    }],
+                    [{
+                      body: '',
+                      checked: false
                     }])
                     setAddRecipeModalVisible(!addRecipeModalVisible);
                   } else {

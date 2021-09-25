@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from 'react';
-import { View, Pressable, TextInput, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useRef, useEffect } from 'react';
+import { TextInput, StyleSheet, View, Pressable, Text } from 'react-native';
 import { COLORS } from '../config/colors';
+import { Ionicons } from '@expo/vector-icons';
 
-export default function RecipeItem({
+export default function DirectionSteps({
   value,
   index,
   checked,
@@ -24,16 +24,18 @@ export default function RecipeItem({
 
   return (
     <View style={styles.view}>
-      <Pressable
+      {/* <Pressable
         style={[styles.checkboxBase, checked && styles.checkboxChecked]}
-        onPress={() => handleCheckedItem(index, !checked, 'ingredients')}
+        onPress={() => handleCheckedItem(index, !checked, 'directions')}
       >
         {checked && <Ionicons name='checkmark' size={24} color={COLORS.artichoke} />}
-      </Pressable>
+      </Pressable> */}
+      <Text style={styles.stepText}>Step {index + 1}:</Text>
       <TextInput
         ref={inputEl}
         value={value}
-        onChangeText={text => handleItemChange(index, text, 'ingredients')}
+        onChangeText={text => handleItemChange(index, text, 'directions')}
+        // multiline
         onFocus={() => {
           if (index !== currentIndex) {
             setCurrentIndex(index)
@@ -43,13 +45,13 @@ export default function RecipeItem({
         blurOnSubmit={false}
         onKeyPress={data => {
           if (data.nativeEvent.key === 'Backspace' && value === '' && index !== 0) {
-            handleRemoveItemLine(index, 'ingredients')
+            handleRemoveItemLine(index, 'directions')
             setCurrentIndex(index - 1)
           }
         }}
         onSubmitEditing={() => {
           setCurrentIndex(index + 1)
-          handleAddNewLine(index, '', 'ingredients')
+          handleAddNewLine(index, '', 'directions')
         }}
         style={styles.textInput}
         onBlur={() => setCurrentIndex()}
@@ -62,6 +64,13 @@ const styles = StyleSheet.create({
   view: {
     flexDirection: 'row',
     marginBottom: 10
+  },
+  stepText: {
+    alignSelf: 'center',
+    marginLeft: 10,
+    fontSize: 24,
+    fontWeight: '600',
+    color: COLORS.artichoke
   },
   checkboxBase: {
     width: 29,
