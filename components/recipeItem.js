@@ -28,7 +28,7 @@ export default function RecipeItem({
         style={[styles.checkboxBase, checked && styles.checkboxChecked]}
         onPress={() => handleCheckedItem(index, !checked, 'ingredients')}
       >
-        {checked && <Ionicons name='checkmark' size={24} color={COLORS.artichoke} />}
+        {checked && <Ionicons name='checkmark' size={24} color={COLORS.white} />}
       </Pressable>
       <TextInput
         ref={inputEl}
@@ -53,6 +53,7 @@ export default function RecipeItem({
         }}
         style={styles.textInput}
         onBlur={() => setCurrentIndex()}
+        enablesReturnKeyAutomatically={true}
       />
     </View>
   )
@@ -70,12 +71,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 4,
     borderWidth: 2,
-    borderColor: COLORS.artichoke,
-    backgroundColor: 'transparent',
+    borderColor: COLORS.earthYellow,
     overflow: 'visible'
   },
   checkboxChecked: {
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.earthYellow,
   },
   textInput: {
     marginLeft: 15,

@@ -59,7 +59,7 @@ export default function recipeHandler({
         setSelectedTab={setSelectedTab}
         setCurrentIndex={setCurrentIndex}
       />
-      {selectedTab === 'Ingredients' ? 
+      {selectedTab === 'Ingredients' || recipeTitle === 'Shopping List' ? 
         <FlatList
           data={ingredients}
           renderItem={renderItem}

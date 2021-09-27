@@ -52,7 +52,7 @@ export default function ShoppingHandler({
         }
       })
     })
-    handleAddRecipe('Shopping List', listBody)
+    handleAddRecipe('Shopping List', listBody, [])
   }
 
   return (

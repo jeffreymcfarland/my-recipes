@@ -14,6 +14,7 @@ export const COLORS = {
   alice: '#F0F5F9',
   beau: '#E2EBF3',
   cerulean: '#6B9CC7',
-  blueGray: '#5C92C1'
-
+  blueGray: '#5C92C1',
+  rosyBrown: '#CC968E',
+  oldRose: '#C68780'
 } 

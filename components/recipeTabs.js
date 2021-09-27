@@ -9,12 +9,24 @@ export default function RecipeTabs({ tabs, selectedTab, setSelectedTab, setCurre
       <Pressable
         onPress={() => {
           setSelectedTab(tab)
-          setCurrentIndex(-1)
+          setCurrentIndex()
         }}
-        style={[styles.tab, selectedTab === tab ? styles.selectedTab : {}]}
+        style={[
+          styles.tab,
+          {borderBottomWidth: selectedTab === tab ? 3 : 0},
+          {borderBottomColor: tab === 'Ingredients' ? COLORS.earthYellow : COLORS.oldRose}
+        ]}
         key={tab}
       >
-        <Text style={[styles.ingredientsTitle, selectedTab === tab ? styles.selectedTabTitle : {}]}>{tab}</Text>
+        <Text style={[
+          styles.ingredientsTitle,
+          {color: selectedTab === tab ?
+            (tab === 'Ingredients' ? COLORS.earthYellow : COLORS.oldRose)
+            :
+            (tab === 'Directions' ? COLORS.rosyBrown : COLORS.burlywood)
+          }
+        ]}
+        >{tab}</Text>
       </Pressable>
     ))}
     </View>
@@ -34,12 +46,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 3,
     borderBottomColor: COLORS.xanadu
   },
-  selectedTabTitle: {
-    color: COLORS.xanadu
-  },
   ingredientsTitle: {
     fontWeight: '600',
-    fontSize: 24,
-    color: COLORS.artichoke
+    fontSize: 24
   }
 })

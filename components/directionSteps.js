@@ -35,7 +35,8 @@ export default function DirectionSteps({
         ref={inputEl}
         value={value}
         onChangeText={text => handleItemChange(index, text, 'directions')}
-        // multiline
+        multiline
+        scrollEnabled={false}
         onFocus={() => {
           if (index !== currentIndex) {
             setCurrentIndex(index)
@@ -55,6 +56,7 @@ export default function DirectionSteps({
         }}
         style={styles.textInput}
         onBlur={() => setCurrentIndex()}
+        enablesReturnKeyAutomatically={true}
       />
     </View>
   )
@@ -66,11 +68,10 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   stepText: {
-    alignSelf: 'center',
-    marginLeft: 10,
+    alignSelf: 'flex-start',
     fontSize: 24,
     fontWeight: '600',
-    color: COLORS.artichoke
+    color: COLORS.oldRose
   },
   checkboxBase: {
     width: 29,
@@ -89,6 +90,6 @@ const styles = StyleSheet.create({
   textInput: {
     marginLeft: 15,
     fontSize: 18,
-    width: '100%'
+    width: '75%'
   }
 })

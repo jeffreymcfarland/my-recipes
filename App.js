@@ -192,7 +192,7 @@ export default function App() {
       items = [...recipeDirections]
     }
     let item = {...items[index]}
-    item.item = text
+    item.item = text.trim()
     items[index] = item
 
     if (listType === 'ingredients') {
@@ -361,7 +361,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   inputAreaContainer: {
-    flex: 1
+    // flex: 1
   },
   inputAreaInner: {
     padding: 24,
@@ -369,7 +369,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   recipeAreaContainer: {
-    justifyContent: 'flex-end',
+    // justifyContent: 'flex-end',
     height: '100%'
   },
   recipeAreaBody: {
