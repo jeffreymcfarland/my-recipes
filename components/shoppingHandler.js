@@ -8,7 +8,8 @@ export default function ShoppingHandler({
   recipes,
   handleAddRecipe,
   handleRemoveRecipe,
-  backgroundColor
+  backgroundColor,
+  text
 }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedRecipes, setSelectedRecipes] = useState([])
@@ -68,11 +69,13 @@ export default function ShoppingHandler({
       <Pressable
         style={({ pressed }) => [
           styles.pressable,
-          {backgroundColor: pressed ? COLORS.lightBlue : COLORS.white}
+          {backgroundColor: pressed ? COLORS.lightBlue : COLORS.white},
+          {padding: text ? 17 : 0}
         ]}
         onPress={handleGroceryList}
       >
-        <Fontisto style={[{backgroundColor: backgroundColor}]} name="shopping-basket-add" size={24} color={COLORS.medDarkBlue} />
+        {text ? <Text style={styles.btnText}>{text}</Text> : <></>}
+        <Fontisto style={[{backgroundColor: backgroundColor}]} name="shopping-basket-add" size={25} color={COLORS.medDarkBlue} />
       </Pressable>
     </>
   )
@@ -80,7 +83,15 @@ export default function ShoppingHandler({
 
 const styles = StyleSheet.create({
   pressable: {
-    borderRadius: 5,
-    alignSelf: 'center'
+    alignSelf: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 5
+  },
+  btnText: {
+    color: COLORS.darkBlue,
+    fontSize: 24,
+    fontWeight: '600',
+    marginRight: 5
   }
 })

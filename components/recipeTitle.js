@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
     width: '90%',
-    marginTop: 40
+    marginTop: 45
   },
   title: {
     fontSize: 36,

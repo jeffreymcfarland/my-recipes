@@ -8,6 +8,7 @@ export const COLORS = {
   lightOrange: '#FDF2ED',
   lightMedOrange: '#FBE4DA',
   medOrange: '#F1A37E',
+  lightYellow: '#FBF6EF',
   medDarkYellow: '#E2B478',
   darkYellow: '#DFAB68',
   lightBlue: '#F0F5F9',

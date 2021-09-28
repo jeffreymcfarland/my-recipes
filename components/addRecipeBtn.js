@@ -8,12 +8,12 @@ export default function AddRecipeBtn({ setAddRecipeModalVisible }) {
     <Pressable
       style={({ pressed }) => [
         styles.pressable,
-        {backgroundColor: pressed ? COLORS.darkBlue : COLORS.medDarkBlue}
+        {backgroundColor: pressed ? COLORS.lightBlue : COLORS.white}
       ]}
       onPress={() => setAddRecipeModalVisible(true)}
     >
       <Text style={styles.btnText}>Recipe</Text>
-      <MaterialIcons name="post-add" size={30} color={COLORS.white} />
+      <MaterialIcons name="post-add" size={30} color={COLORS.darkBlue} />
     </Pressable>
   )
 }
@@ -23,19 +23,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 8,
-    paddingRight: 6,
-    borderRadius: 5,
-    shadowColor: COLORS.darkGray,
-    shadowOffset: {
-      width: 2,
-      height: 2
-    },
-    shadowOpacity: 0.4,
-    marginRight: 15
+    padding: 14,
+    borderRadius: 5
   },
   btnText: {
-    color: COLORS.white,
+    color: COLORS.darkBlue,
     fontSize: 24,
     fontWeight: '600',
     marginRight: 5

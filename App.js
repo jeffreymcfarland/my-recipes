@@ -325,7 +325,7 @@ export default function App() {
                         <HomePage
                           recipes={recipes}
                           selectRecipe={selectRecipe}
-                          toggleNav={toggleNav}
+                          closeNav={closeNav}
                           handleAddRecipe={handleAddRecipe}
                           setAddRecipeModalVisible={setAddRecipeModalVisible}
                           handleRemoveRecipe={handleRemoveRecipe}

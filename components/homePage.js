@@ -7,7 +7,7 @@ import AddRecipeBtn from './addRecipeBtn';
 const Item = ({ title, selectRecipe }) => (
   <Pressable
     onPress={() => selectRecipe(title)}
-    style={({ pressed }) => [{backgroundColor: pressed ? COLORS.darkYellow : COLORS.medDarkYellow}, styles.pressable]}
+    style={({ pressed }) => [{backgroundColor: pressed ? COLORS.lightYellow : COLORS.white}, styles.pressable]}
   >
     <View style={styles.itemsWrapper}>
       <Text style={styles.item} numberOfLines={1}>{title}</Text>
@@ -15,36 +15,56 @@ const Item = ({ title, selectRecipe }) => (
   </Pressable>
 )
 
+const Divider = () => (
+  <View style={styles.divider}></View>
+)
+
+const Handler = ({ recipes, handleAddRecipe, setAddRecipeModalVisible, handleRemoveRecipe }) => (
+  <>
+    <View style={styles.handlerView}>
+      <AddRecipeBtn setAddRecipeModalVisible={setAddRecipeModalVisible} />
+      {recipes.length > 0 ?
+        <ShoppingHandler
+          recipes={recipes}
+          handleAddRecipe={handleAddRecipe}
+          handleRemoveRecipe={handleRemoveRecipe}
+          backgroundColor='transparent'
+          text='Shop'
+        />
+      :
+        <></>
+      }
+    </View>
+    <Divider />
+  </>
+)
+
 export default function HomePage({
   recipes,
   selectRecipe,
-  toggleNav,
+  closeNav,
   handleAddRecipe,
   setAddRecipeModalVisible,
   handleRemoveRecipe
 }) { 
   return (
     <>
-      <View style={styles.handlerView}>
-        <AddRecipeBtn setAddRecipeModalVisible={setAddRecipeModalVisible} />
-        {recipes.length > 0 ?
-          <ShoppingHandler
-            recipes={recipes}
-            handleAddRecipe={handleAddRecipe}
-            handleRemoveRecipe={handleRemoveRecipe}
-            backgroundColor={COLORS.white}
-          />
-        :
-          <></>
-        }
-      </View>
-      <TouchableWithoutFeedback onPress={toggleNav}>
+      <TouchableWithoutFeedback onPress={closeNav}>
         <View style={styles.view}>
           <FlatList
             data={recipes}
             renderItem={({ item }) => <Item title={item.title} selectRecipe={selectRecipe} />}
             keyExtractor={(item, index) => index.toString()}
-            scrollEnabled={false}
+            ItemSeparatorComponent={Divider}
+            ListHeaderComponent={
+              <Handler
+                recipes={recipes}
+                handleAddRecipe={handleAddRecipe}
+                setAddRecipeModalVisible={setAddRecipeModalVisible}
+                handleRemoveRecipe={handleRemoveRecipe}
+              />
+            }
+            ListFooterComponent={Divider}
           />
         </View>
       </TouchableWithoutFeedback>
@@ -55,24 +75,28 @@ export default function HomePage({
 const styles = StyleSheet.create({
   handlerView: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignContent: 'center',
     marginTop: 30
   },
   view: {
     alignItems: 'center',
-    padding: 20
+    marginBottom: 20
   },
   itemsWrapper: {
     padding: 18
   },
   item: {
-    color: COLORS.white,
+    color: COLORS.darkYellow,
     fontSize: 18,
     fontWeight: '600'
   },
   pressable: {
-    borderRadius: 5,
-    margin: 8
+    borderRadius: 5
+  },
+  divider: {
+    height: 3,
+    width: '100%',
+    backgroundColor: COLORS.medDarkYellow
   }
 })

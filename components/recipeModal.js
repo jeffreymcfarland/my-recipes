@@ -48,7 +48,7 @@ export default function RecipeModal({ handleAddRecipe, addRecipeModalVisible, se
               </TouchableHighlight>
               <TouchableHighlight
                 style={styles.modalBtn}
-                underlayColor={COLORS.darkYellow}
+                underlayColor={COLORS.darkBlue}
                 onPress={() => {
                   if (value !== '') {
                     setEmptyInput(false)
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   },
   textinput: {
     alignSelf: 'center',
-    borderColor: COLORS.darkGray,
+    borderColor: COLORS.darkBlue,
     borderWidth: 2,
     borderRadius: 4,
     height: 40,
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   modalBtn: {
-    backgroundColor: COLORS.medDarkYellow,
+    backgroundColor: COLORS.medDarkBlue,
     borderRadius: 6,
     padding: 10,
     elevation: 2,

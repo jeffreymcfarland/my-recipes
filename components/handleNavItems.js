@@ -58,13 +58,7 @@ const styles = StyleSheet.create({
     padding: 10,
     width: '50%',
     marginRight: 20,
-    borderRadius: 5,
-    shadowColor: COLORS.darkGray,
-    shadowOffset: {
-      width: 2,
-      height: 2
-    },
-    shadowOpacity: 0.4
+    borderRadius: 5
   },
   home: {
     fontSize: 18,
