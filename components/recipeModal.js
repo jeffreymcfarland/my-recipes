@@ -37,18 +37,18 @@ export default function RecipeModal({ handleAddRecipe, addRecipeModalVisible, se
             <ErrorMessage isShown={emptyInput} />
             <View style={styles.btnView} >
               <TouchableHighlight
-                style={{...styles.modalBtn, backgroundColor: COLORS.cultured}}
-                underlayColor={COLORS.platinum}
+                style={{...styles.modalBtn, backgroundColor: COLORS.lightGray}}
+                underlayColor={COLORS.medGray}
                 onPress={() => {
                   setValue('')
                   setAddRecipeModalVisible(!addRecipeModalVisible);
                   setEmptyInput(false)
                 }}>
-                <Text style={{...styles.textStyle, color: COLORS.jet}}>Cancel</Text>
+                <Text style={{...styles.textStyle, color: COLORS.darkGray}}>Cancel</Text>
               </TouchableHighlight>
               <TouchableHighlight
                 style={styles.modalBtn}
-                underlayColor={COLORS.earthYellow}
+                underlayColor={COLORS.darkYellow}
                 onPress={() => {
                   if (value !== '') {
                     setEmptyInput(false)
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   },
   textinput: {
     alignSelf: 'center',
-    borderColor: COLORS.jet,
+    borderColor: COLORS.darkGray,
     borderWidth: 2,
     borderRadius: 4,
     height: 40,
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     fontWeight: '600'
   },
   textInputEmpty: {
-    borderColor: COLORS.redwood,
+    borderColor: COLORS.darkRed,
     fontWeight: '700',
     marginBottom: 3.5
   },
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 50,
     alignItems: 'center',
-    shadowColor: COLORS.jet,
+    shadowColor: COLORS.darkGray,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   modalBtn: {
-    backgroundColor: COLORS.burlywood,
+    backgroundColor: COLORS.medDarkYellow,
     borderRadius: 6,
     padding: 10,
     elevation: 2,

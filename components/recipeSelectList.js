@@ -26,8 +26,8 @@ export default function RecipeSelectList({ title, selectedRecipes, setSelectedRe
   return(
     <View style={styles.view}>
       <Switch
-        trackColor={{ true: COLORS.beau }}
-        thumbColor={isSwitched ? COLORS.cerulean : COLORS.white}
+        trackColor={{ true: COLORS.mediumBlue }}
+        thumbColor={isSwitched ? COLORS.medDarkBlue : COLORS.white}
         ios_backgroundColor={COLORS.white}
         onValueChange={toggleSwitch}
         value={isSwitched}

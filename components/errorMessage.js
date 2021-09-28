@@ -12,7 +12,7 @@ export default function ErrorMessage({ isShown }) {
 
 const styles = StyleSheet.create({
   errorMessage: {
-    color: COLORS.redwood,
+    color: COLORS.darkRed,
     alignSelf: 'center',
     marginBottom: 11
   }

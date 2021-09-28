@@ -71,11 +71,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 4,
     borderWidth: 2,
-    borderColor: COLORS.earthYellow,
+    borderColor: COLORS.darkYellow,
     overflow: 'visible'
   },
   checkboxChecked: {
-    backgroundColor: COLORS.earthYellow,
+    backgroundColor: COLORS.darkYellow,
   },
   textInput: {
     marginLeft: 15,

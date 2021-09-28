@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     fontSize: 24,
     fontWeight: '600',
-    color: COLORS.oldRose
+    color: COLORS.medDarkRed
   },
   checkboxBase: {
     width: 29,
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 4,
     borderWidth: 2,
-    borderColor: COLORS.artichoke,
+    borderColor: COLORS.medGreen,
     backgroundColor: 'transparent',
     overflow: 'visible'
   },

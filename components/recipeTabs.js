@@ -14,16 +14,16 @@ export default function RecipeTabs({ tabs, selectedTab, setSelectedTab, setCurre
         style={[
           styles.tab,
           {borderBottomWidth: selectedTab === tab ? 3 : 0},
-          {borderBottomColor: tab === 'Ingredients' ? COLORS.earthYellow : COLORS.oldRose}
+          {borderBottomColor: tab === 'Ingredients' ? COLORS.darkYellow : COLORS.medDarkRed}
         ]}
         key={tab}
       >
         <Text style={[
           styles.ingredientsTitle,
           {color: selectedTab === tab ?
-            (tab === 'Ingredients' ? COLORS.earthYellow : COLORS.oldRose)
+            (tab === 'Ingredients' ? COLORS.darkYellow : COLORS.medDarkRed)
             :
-            (tab === 'Directions' ? COLORS.rosyBrown : COLORS.burlywood)
+            (tab === 'Directions' ? COLORS.mediumRed : COLORS.medDarkYellow)
           }
         ]}
         >{tab}</Text>
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   },
   selectedTab: {
     borderBottomWidth: 3,
-    borderBottomColor: COLORS.xanadu
+    borderBottomColor: COLORS.darkGreen
   },
   ingredientsTitle: {
     fontWeight: '600',

@@ -68,11 +68,11 @@ export default function ShoppingHandler({
       <Pressable
         style={({ pressed }) => [
           styles.pressable,
-          {backgroundColor: pressed ? COLORS.alice : COLORS.white}
+          {backgroundColor: pressed ? COLORS.lightBlue : COLORS.white}
         ]}
         onPress={handleGroceryList}
       >
-        <Fontisto style={[{backgroundColor: backgroundColor}]} name="shopping-basket-add" size={24} color={COLORS.cerulean} />
+        <Fontisto style={[{backgroundColor: backgroundColor}]} name="shopping-basket-add" size={24} color={COLORS.medDarkBlue} />
       </Pressable>
     </>
   )

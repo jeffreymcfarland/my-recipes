@@ -80,7 +80,7 @@ export default function firstScreen({ window, handleExitKeyboard, setUserName, s
                 setUserData()
               }
             }}
-            underlayColor={COLORS.blueGray}
+            underlayColor={COLORS.darkBlue}
           >
             <Text style={styles.submitText}>Submit</Text>
           </TouchableHighlight>
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: '600',
     paddingTop: 120,
-    color: COLORS.blueGray
+    color: COLORS.darkBlue
   },
   inputView: {
     flex: 1,
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   },
   input: {
     alignSelf: 'center',
-    borderColor: COLORS.burlywood,
+    borderColor: COLORS.medDarkYellow,
     borderWidth: 2,
     borderRadius: 4,
     height: 45,
@@ -121,21 +121,21 @@ const styles = StyleSheet.create({
   },
   emptyInput: {
     marginBottom: 5,
-    borderColor: COLORS.redwood
+    borderColor: COLORS.darkRed
   },
   inputLabel: {
     width: '55%',
     alignSelf: 'center',
     fontSize: 20,
     fontWeight: '600',
-    color: COLORS.burlywood
+    color: COLORS.medDarkYellow
   },
   submitBtn: {
     width: 100,
     height: 40,
     alignSelf: 'center',
     justifyContent: 'center',
-    backgroundColor: COLORS.cerulean,
+    backgroundColor: COLORS.medDarkBlue,
     borderRadius: 4,
     marginTop: 10
   },

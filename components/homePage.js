@@ -7,7 +7,7 @@ import AddRecipeBtn from './addRecipeBtn';
 const Item = ({ title, selectRecipe }) => (
   <Pressable
     onPress={() => selectRecipe(title)}
-    style={({ pressed }) => [{backgroundColor: pressed ? COLORS.earthYellow : COLORS.burlywood}, styles.pressable]}
+    style={({ pressed }) => [{backgroundColor: pressed ? COLORS.darkYellow : COLORS.medDarkYellow}, styles.pressable]}
   >
     <View style={styles.itemsWrapper}>
       <Text style={styles.item} numberOfLines={1}>{title}</Text>

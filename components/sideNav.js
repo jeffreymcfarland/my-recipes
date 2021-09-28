@@ -53,7 +53,7 @@ export default function SideNav({
             }]}
           >
             <Pressable style={styles.iconView} onPress={toggleNav}>
-              <Ionicons name={navOpen ? 'chevron-back-circle' : 'chevron-forward-circle'} style={styles.chevron} size={40} color={COLORS.salmon} />
+              <Ionicons name={navOpen ? 'chevron-back-circle' : 'chevron-forward-circle'} style={styles.chevron} size={40} color={COLORS.medOrange} />
             </Pressable>
           </View>
         </View>
@@ -64,14 +64,14 @@ export default function SideNav({
 
 const styles = StyleSheet.create({
   navContainer: {
-    backgroundColor: COLORS.seashell,
+    backgroundColor: COLORS.lightOrange,
     alignItems: 'flex-start',
     height: '100%',
     zIndex: 2,
     position: 'absolute',
     borderRightWidth: 3,
-    borderColor: COLORS.salmon,
-    shadowColor: COLORS.jet,
+    borderColor: COLORS.medOrange,
+    shadowColor: COLORS.darkGray,
     shadowOffset: {
     width: 4,
     height: 0
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: COLORS.jet,
+    shadowColor: COLORS.darkGray,
     shadowOffset: {
       width: 4,
       height: 0

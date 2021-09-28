@@ -19,7 +19,7 @@ export default function handleNavItems({
       <View style={styles.view}>
         <Pressable
           onPress={() => selectRecipe('My Recipes')}
-          style={({ pressed }) => [styles.pressableHome, {backgroundColor: pressed ? COLORS.earthYellow : COLORS.burlywood}]}
+          style={({ pressed }) => [styles.pressableHome, {backgroundColor: pressed ? COLORS.darkYellow : COLORS.medDarkYellow}]}
         >
           <Text style={styles.home}>Home</Text>
         </Pressable>
@@ -27,7 +27,7 @@ export default function handleNavItems({
           onPress={() => setAddRecipeModalVisible(true)}
           style={styles.recipePressable}
         >
-          <MaterialIcons name="post-add" size={34} color={COLORS.cerulean} />
+          <MaterialIcons name="post-add" size={34} color={COLORS.medDarkBlue} />
         </Pressable>
         <ShoppingHandler
           recipes={recipes}
@@ -36,7 +36,7 @@ export default function handleNavItems({
           setRecipeTitle={setRecipeTitle}
           setRecipeBody={setRecipeBody}
           toggleNav={toggleNav}
-          backgroundColor={COLORS.seashell}
+          backgroundColor={COLORS.lightOrange}
         />
       </View>
     </>
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     width: '50%',
     marginRight: 20,
     borderRadius: 5,
-    shadowColor: COLORS.jet,
+    shadowColor: COLORS.darkGray,
     shadowOffset: {
       width: 2,
       height: 2

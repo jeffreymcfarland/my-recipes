@@ -44,18 +44,18 @@ export default function GroceriesModal({
             />
             <View style={styles.btnView}>
               <TouchableHighlight
-                style={{...styles.modalBtn, backgroundColor: COLORS.cultured}}
-                underlayColor={COLORS.platinum}
+                style={{...styles.modalBtn, backgroundColor: COLORS.lightGray}}
+                underlayColor={COLORS.medGray}
                 onPress={() => {
                   setModalVisible(!modalVisible)
                   setSelectedRecipes([])
                 }}
               >
-                <Text style={{...styles.textStyle, color: COLORS.jet}}>Cancel</Text>
+                <Text style={{...styles.textStyle, color: COLORS.darkGray}}>Cancel</Text>
               </TouchableHighlight>
               <TouchableHighlight
                 style={styles.modalBtn}
-                underlayColor={COLORS.blueGray}
+                underlayColor={COLORS.darkBlue}
                 onPress={() => {
                   setModalVisible(!modalVisible)
                   makeShoppingList(selectedRecipes)
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 70,
     alignItems: 'center',
-    shadowColor: COLORS.jet,
+    shadowColor: COLORS.darkGray,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   modalBtn: {
-    backgroundColor: COLORS.cerulean,
+    backgroundColor: COLORS.medDarkBlue,
     borderRadius: 6,
     padding: 10,
     elevation: 2,

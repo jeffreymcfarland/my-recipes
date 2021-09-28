@@ -34,7 +34,7 @@ function Item({
 
   return (
     <Pressable
-      style={({ pressed }) => [styles.pressable, {backgroundColor: pressed ? COLORS.champagne : COLORS.seashell}, styles.touch, title === recipeTitle ? styles.selectedItem : {}, title === deleteTitle ? {backgroundColor: COLORS.redwood}: {}]}
+      style={({ pressed }) => [styles.pressable, {backgroundColor: pressed ? COLORS.lightMedOrange : COLORS.lightOrange}, styles.touch, title === recipeTitle ? styles.selectedItem : {}, title === deleteTitle ? {backgroundColor: COLORS.darkRed}: {}]}
       onPress={() => selectRecipe(title)}
       onLongPress={() => {
         changeHighLight(title)
@@ -107,9 +107,9 @@ const styles = StyleSheet.create({
     height: 'auto',
     fontSize: 18,
     fontWeight: '700',
-    color: COLORS.salmon
+    color: COLORS.medOrange
   },
   selectedItem: {
-    backgroundColor: COLORS.champagne
+    backgroundColor: COLORS.lightMedOrange
   }
 })

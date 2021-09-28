@@ -5,7 +5,7 @@ import { COLORS } from '../config/colors';
 export default function RecipeTitle({ title }) {
   return (
     <View style={styles.container}>
-        <Text style={[styles.title, {color: title === 'My Recipes' ? COLORS.earthYellow : COLORS.artichoke}]}>{title}</Text>
+        <Text style={[styles.title, {color: title === 'My Recipes' ? COLORS.darkYellow : COLORS.medGreen}]}>{title}</Text>
     </View>
   )
 }

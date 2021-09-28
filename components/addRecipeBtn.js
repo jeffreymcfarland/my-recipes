@@ -8,7 +8,7 @@ export default function AddRecipeBtn({ setAddRecipeModalVisible }) {
     <Pressable
       style={({ pressed }) => [
         styles.pressable,
-        {backgroundColor: pressed ? COLORS.blueGray : COLORS.cerulean}
+        {backgroundColor: pressed ? COLORS.darkBlue : COLORS.medDarkBlue}
       ]}
       onPress={() => setAddRecipeModalVisible(true)}
     >
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     padding: 8,
     paddingRight: 6,
     borderRadius: 5,
-    shadowColor: COLORS.jet,
+    shadowColor: COLORS.darkGray,
     shadowOffset: {
       width: 2,
       height: 2
