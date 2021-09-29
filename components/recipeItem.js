@@ -33,6 +33,7 @@ export default function RecipeItem({
       <TextInput
         ref={inputEl}
         value={value}
+        placeholder='new item...'
         onChangeText={text => handleItemChange(index, text, 'ingredients')}
         onFocus={() => {
           if (index !== currentIndex) {

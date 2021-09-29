@@ -62,7 +62,7 @@ export default function GroceriesModal({
                   setSelectedRecipes([])
                 }}
               >
-                <Text style={styles.textStyle}>Submit</Text>
+                <Text style={styles.textStyle}>Next</Text>
               </TouchableHighlight>
             </View>
           </View>

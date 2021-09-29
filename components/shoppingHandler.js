@@ -53,6 +53,12 @@ export default function ShoppingHandler({
         }
       })
     })
+    if (listArray = []) {
+      listBody.push({
+        item: '',
+        checked: false
+      })
+    }
     handleAddRecipe('Shopping List', listBody, [])
   }
 
