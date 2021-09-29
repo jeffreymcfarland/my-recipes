@@ -92,8 +92,8 @@ export default function App() {
   });
 
   const openNav = () => {
-    setNavContainerSize(2)
-    setIconPosition(1)
+    setNavContainerSize(1.5)
+    setIconPosition(.75)
     setNavOpen(true)
   }
 
@@ -192,7 +192,7 @@ export default function App() {
       items = [...recipeDirections]
     }
     let item = {...items[index]}
-    item.item = text.trim()
+    item.item = text
     items[index] = item
 
     if (listType === 'ingredients') {
@@ -210,6 +210,7 @@ export default function App() {
       items = [...recipeBody]
     } else {
       items = [...recipeDirections]
+      handleItemChange(index, items[index].item.trimEnd(), 'directions')
     }
     let newItem = {
       item: text,

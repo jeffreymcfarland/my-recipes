@@ -6,7 +6,9 @@ function Item({
   title,
   recipeTitle,
   selectRecipe,
-  handleRemoveRecipe
+  handleRemoveRecipe,
+  window,
+  navContainerSize
 }) {
   const [deleteTitle, setDeleteTitle] = useState('')
 
@@ -34,7 +36,14 @@ function Item({
 
   return (
     <Pressable
-      style={({ pressed }) => [styles.pressable, {backgroundColor: pressed ? COLORS.lightMedOrange : COLORS.lightOrange}, styles.touch, title === recipeTitle ? styles.selectedItem : {}, title === deleteTitle ? {backgroundColor: COLORS.darkRed}: {}]}
+      style={({ pressed }) => 
+        [
+          styles.pressable,
+          {backgroundColor: pressed ? COLORS.lightMedOrange : COLORS.lightOrange},
+          title === recipeTitle ? styles.selectedItem : {},
+          title === deleteTitle ? {backgroundColor: COLORS.darkRed}: {},
+          {width: window.width / (navContainerSize + .1)}
+        ]}
       onPress={() => selectRecipe(title)}
       onLongPress={() => {
         changeHighLight(title)
@@ -54,6 +63,8 @@ export default function SideNav({
   recipeTitle,
   selectRecipe,
   handleRemoveRecipe,
+  window,
+  navContainerSize
 }) {
 
   return(
@@ -62,7 +73,16 @@ export default function SideNav({
       <View style={styles.container}>
         <FlatList 
           data={recipes}
-          renderItem={({ item }) => <Item title={item.title} recipeTitle={recipeTitle} selectRecipe={selectRecipe} handleRemoveRecipe={handleRemoveRecipe} />}
+          renderItem={({ item }) => 
+            <Item
+              title={item.title}
+              recipeTitle={recipeTitle}
+              selectRecipe={selectRecipe}
+              handleRemoveRecipe={handleRemoveRecipe}
+              window={window}
+              navContainerSize={navContainerSize}
+            />
+          }
           keyExtractor={(item, index) => index.toString()}
           style={styles.list}
         />
@@ -76,23 +96,20 @@ export default function SideNav({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 10,
     zIndex: 3
   },
   pressable: {
-    margin: 5
+    margin: 7,
+    marginTop: 5,
+    marginBottom: 5,
+    borderRadius: 5
   },
   list: {
-    width: '100%',
+    flex: 1,
     zIndex: 4
-  },
-  touch: {
-    width: '95%',
-    alignSelf: 'center',
-    borderRadius: 5
   },
   itemsWrapper: {
     width: '100%',

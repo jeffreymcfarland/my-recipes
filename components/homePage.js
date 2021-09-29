@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
   },
   view: {
     alignItems: 'center',
+    height: '100%',
     marginBottom: 20
   },
   itemsWrapper: {

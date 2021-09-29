@@ -46,6 +46,8 @@ export default function SideNav({
             recipeTitle={recipeTitle}
             selectRecipe={selectRecipe}
             handleRemoveRecipe={handleRemoveRecipe}
+            window={window}
+            navContainerSize={navContainerSize}
           />
           <View
             style={[styles.iconContainer, {
@@ -67,6 +69,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.lightOrange,
     alignItems: 'flex-start',
     height: '100%',
+    width: '100%',
     zIndex: 2,
     position: 'absolute',
     borderRightWidth: 3,

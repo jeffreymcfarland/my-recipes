@@ -19,7 +19,7 @@ export default function handleNavItems({
       <View style={styles.view}>
         <Pressable
           onPress={() => selectRecipe('My Recipes')}
-          style={({ pressed }) => [styles.pressableHome, {backgroundColor: pressed ? COLORS.darkYellow : COLORS.medDarkYellow}]}
+          style={({ pressed }) => [styles.pressableHome, {backgroundColor: pressed ? COLORS.mediumYellow : COLORS.lightOrange}]}
         >
           <Text style={styles.home}>Home</Text>
         </Pressable>
@@ -61,10 +61,10 @@ const styles = StyleSheet.create({
     borderRadius: 5
   },
   home: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: 24,
+    fontWeight: '700',
     alignSelf: 'center',
-    color: COLORS.white
+    color: COLORS.darkYellow
   },
   recipePressable: {
     marginRight: 10

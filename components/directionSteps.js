@@ -22,6 +22,10 @@ export default function DirectionSteps({
     }
   })
 
+  const trimVal = (value) => {
+    return value.trimEnd()
+  }
+
   return (
     <View style={styles.view}>
       {/* <Pressable
@@ -34,7 +38,7 @@ export default function DirectionSteps({
       <TextInput
         ref={inputEl}
         value={value}
-        onChangeText={text => handleItemChange(index, text, 'directions')}
+        onChangeText={text => handleItemChange(index, text.replace(/\n/i, ''), 'directions')}
         multiline
         scrollEnabled={false}
         onFocus={() => {
